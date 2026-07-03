@@ -6,6 +6,7 @@ import Calculators from "./pages/Calculators"
 import Contact from "./pages/Contact"
 import Services from "./pages/Services"
 import Sign from "./pages/Sign"
+import Footer from "./shared/Footer"
 function App() {
 
   return (
@@ -19,7 +20,7 @@ function App() {
          <Route path="/services" element={<Services />} />
          <Route path="/sign" element={<Sign />} />
       </Routes>
-    
+    <Footer />
     </>
   )
 }
