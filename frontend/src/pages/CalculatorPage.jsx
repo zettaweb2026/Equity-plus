@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { 
   TrendingUp, 
@@ -6,7 +6,6 @@ import {
   Coins, 
   ArrowDownCircle, 
   ChevronsUp, 
-  Info, 
   ChevronDown, 
   ChevronUp, 
   ArrowLeft 
@@ -164,9 +163,9 @@ const CalculatorPage = () => {
     }
   };
 
-  const getInputValue = (id) => {
+  const getInputValue = useCallback((id) => {
     return inputs[`${config.title}_${id}`] ?? config.fields.find((f) => f.id === id).default;
-  };
+  }, [inputs, config]);
 
   // Perform Calculations based on calculator type
   const results = useMemo(() => {
@@ -294,7 +293,6 @@ const CalculatorPage = () => {
       const yearlyData = [];
 
       for (let y = 1; y <= tenure; y++) {
-        let withdrawnThisYear = 0;
         for (let m = 1; m <= 12; m++) {
           if (balance <= 0) {
             balance = 0;
@@ -308,7 +306,6 @@ const CalculatorPage = () => {
             currentWithdrawal = balance;
           }
           balance = Math.max(0, balance - currentWithdrawal);
-          withdrawnThisYear += currentWithdrawal;
           totalWithdrawn += currentWithdrawal;
         }
         yearlyData.push({
@@ -323,7 +320,7 @@ const CalculatorPage = () => {
     }
 
     return { invested: 0, gain: 0, total: 0, yearlyData: [] };
-  }, [activeType, inputs, config]);
+  }, [activeType, getInputValue]);
 
   // Donut chart calculations
   const donutChart = useMemo(() => {
