@@ -48,7 +48,7 @@ const Thirhome = () => {
           <FaPercentage />
         </div>
         <h1 className="text-xl font-bold">
-          Brokerage Calculator
+          Lumpsum Calculator
           <br />
           <span className="text-lg font-semibold">
             Know your exact brokerage charges before trading.
