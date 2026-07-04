@@ -219,41 +219,45 @@ const CalculatorPage = () => {
     }
 
     if (activeType === "step-up-sip") {
-      const monthly = getInputValue("monthly");
-      const stepup = getInputValue("stepup");
-      const monthlyRate = rate / 12 / 100;
+      const P = getInputValue("monthly");   // Initial monthly SIP (₹)
+      const g = getInputValue("stepup");    // Annual step-up rate (%)
+      const r = rate / 12 / 100;           // Monthly rate of return
+      const n = tenure * 12;               // Total number of months
       const yearlyData = [];
 
-      // Formula: each SIP payment is compounded for its remaining months
-      // FV = Σ (SIP_month × (1 + monthlyRate)^monthsRemaining)
-      // SIP amount increases by stepUp% every year
-      let totalInvestment = 0;
+      /**
+       * Industry-Standard Tranche Method (HDFC Fund / Zerodha / Bajaj AMC)
+       *
+       * FV = Σ(m=1 to n) [ SIP_m × (1 + r)^(n - m + 1) ]
+       *
+       * Where:
+       *   SIP_m = P × (1 + g/100)^floor((m-1)/12)
+       *         → SIP amount for month m, stepped up every 12 months
+       *   r     = monthly rate of return (annual rate / 12 / 100)
+       *   n     = total months (years × 12)
+       *   m     = month index (1-based)
+       */
       let futureValue = 0;
-      let currentSIP = monthly;
+      let totalInvestment = 0;
 
-      for (let year = 0; year < tenure; year++) {
-        for (let month = 0; month < 12; month++) {
-          const monthsLeft = (tenure * 12) - (year * 12 + month);
-          futureValue += currentSIP * Math.pow(1 + monthlyRate, monthsLeft);
-          totalInvestment += currentSIP;
-        }
-        currentSIP = currentSIP * (1 + stepup / 100);
+      for (let m = 1; m <= n; m++) {
+        // Step-up applies every 12 months: year index = floor((m-1)/12)
+        const sipM = P * Math.pow(1 + g / 100, Math.floor((m - 1) / 12));
+        futureValue += sipM * Math.pow(1 + r, n - m + 1);
+        totalInvestment += sipM;
       }
 
       const gain = futureValue - totalInvestment;
 
-      // Generate year-by-year data using same formula scoped to each year horizon
+      // Year-by-year projection: run the same formula up to each year horizon
       for (let y = 1; y <= tenure; y++) {
+        const ny = y * 12; // horizon in months for this year
         let yearFV = 0;
         let yearInvestment = 0;
-        let sip = monthly;
-        for (let yr = 0; yr < y; yr++) {
-          for (let m = 0; m < 12; m++) {
-            const monthsLeft = (y * 12) - (yr * 12 + m);
-            yearFV += sip * Math.pow(1 + monthlyRate, monthsLeft);
-            yearInvestment += sip;
-          }
-          sip = sip * (1 + stepup / 100);
+        for (let m = 1; m <= ny; m++) {
+          const sipM = P * Math.pow(1 + g / 100, Math.floor((m - 1) / 12));
+          yearFV += sipM * Math.pow(1 + r, ny - m + 1);
+          yearInvestment += sipM;
         }
         yearlyData.push({
           year: y,
