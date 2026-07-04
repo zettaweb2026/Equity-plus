@@ -313,39 +313,45 @@ const CalculatorPage = () => {
     }
 
     if (activeType === "swp") {
-      const totalInvest = getInputValue("totalInvest");
+      const investment = getInputValue("totalInvest");
       const withdrawal = getInputValue("withdrawal");
       const monthlyRate = rate / 12 / 100;
-      
-      let balance = totalInvest;
-      let totalWithdrawn = 0;
+      const months = tenure * 12;
       const yearlyData = [];
+
+      /**
+       * SWP Formula:
+       *   Each month:
+       *     balance = balance × (1 + monthlyRate)   ← monthly growth first
+       *     balance = balance - withdrawal           ← then deduct withdrawal
+       *
+       *   totalWithdrawal = withdrawal × months (fixed monthly payout)
+       */
+      let balance = investment;
 
       for (let y = 1; y <= tenure; y++) {
         for (let m = 1; m <= 12; m++) {
-          if (balance <= 0) {
-            balance = 0;
-            break;
-          }
-          const interest = balance * monthlyRate;
-          balance = balance + interest;
-          
-          let currentWithdrawal = withdrawal;
-          if (balance < withdrawal) {
-            currentWithdrawal = balance;
-          }
-          balance = Math.max(0, balance - currentWithdrawal);
-          totalWithdrawn += currentWithdrawal;
+          balance = balance * (1 + monthlyRate); // monthly growth
+          balance = balance - withdrawal;         // monthly withdrawal
         }
+        const safeBalance = Math.max(0, Math.round(balance));
         yearlyData.push({
           year: y,
-          invested: totalInvest,
-          value: balance,
-          gain: totalWithdrawn, // Cumulative withdrawals
+          invested: investment,
+          value: safeBalance,
+          gain: withdrawal * (y * 12), // cumulative withdrawals so far
         });
       }
 
-      return { invested: totalInvest, gain: totalWithdrawn, total: balance, yearlyData };
+      const totalWithdrawal = withdrawal * months;
+      const finalBalance = Math.max(0, Math.round(balance));
+
+      return {
+        invested: investment,
+        gain: totalWithdrawal,
+        total: finalBalance,
+        yearlyData,
+      };
     }
 
     return { invested: 0, gain: 0, total: 0, yearlyData: [] };
