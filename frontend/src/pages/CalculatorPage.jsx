@@ -221,29 +221,54 @@ const CalculatorPage = () => {
     if (activeType === "step-up-sip") {
       const monthly = getInputValue("monthly");
       const stepup = getInputValue("stepup");
-      let balance = 0;
-      let totalInvested = 0;
       const monthlyRate = rate / 12 / 100;
       const yearlyData = [];
-      let currentMonthly = monthly;
 
-      for (let y = 1; y <= tenure; y++) {
-        let yearInvested = 0;
-        for (let m = 1; m <= 12; m++) {
-          balance = (balance + currentMonthly) * (1 + monthlyRate);
-          yearInvested += currentMonthly;
+      // Formula: each SIP payment is compounded for its remaining months
+      // FV = Σ (SIP_month × (1 + monthlyRate)^monthsRemaining)
+      // SIP amount increases by stepUp% every year
+      let totalInvestment = 0;
+      let futureValue = 0;
+      let currentSIP = monthly;
+
+      for (let year = 0; year < tenure; year++) {
+        for (let month = 0; month < 12; month++) {
+          const monthsLeft = (tenure * 12) - (year * 12 + month);
+          futureValue += currentSIP * Math.pow(1 + monthlyRate, monthsLeft);
+          totalInvestment += currentSIP;
         }
-        totalInvested += yearInvested;
-        yearlyData.push({
-          year: y,
-          invested: totalInvested,
-          value: balance,
-          gain: Math.max(0, balance - totalInvested),
-        });
-        currentMonthly = currentMonthly * (1 + stepup / 100);
+        currentSIP = currentSIP * (1 + stepup / 100);
       }
 
-      return { invested: totalInvested, gain: balance - totalInvested, total: balance, yearlyData };
+      const gain = futureValue - totalInvestment;
+
+      // Generate year-by-year data using same formula scoped to each year horizon
+      for (let y = 1; y <= tenure; y++) {
+        let yearFV = 0;
+        let yearInvestment = 0;
+        let sip = monthly;
+        for (let yr = 0; yr < y; yr++) {
+          for (let m = 0; m < 12; m++) {
+            const monthsLeft = (y * 12) - (yr * 12 + m);
+            yearFV += sip * Math.pow(1 + monthlyRate, monthsLeft);
+            yearInvestment += sip;
+          }
+          sip = sip * (1 + stepup / 100);
+        }
+        yearlyData.push({
+          year: y,
+          invested: Math.round(yearInvestment),
+          value: Math.round(yearFV),
+          gain: Math.max(0, Math.round(yearFV - yearInvestment)),
+        });
+      }
+
+      return {
+        invested: Math.round(totalInvestment),
+        gain: Math.round(gain),
+        total: Math.round(futureValue),
+        yearlyData,
+      };
     }
 
     if (activeType === "emi") {
