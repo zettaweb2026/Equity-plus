@@ -199,14 +199,14 @@ const CalculatorPage = () => {
 
     if (activeType === "lumpsum") {
       const totalInvest = getInputValue("totalInvest");
-      const r = rate / 100;
-      const totalValue = totalInvest * Math.pow(1 + r, tenure);
+      // Formula: FV = P × (1 + r/100)^t  (annual compounding, r in %)
+      const totalValue = totalInvest * Math.pow(1 + rate / 100, tenure);
       const invested = totalInvest;
       const gain = Math.max(0, totalValue - invested);
 
       const yearlyData = [];
       for (let y = 1; y <= tenure; y++) {
-        const yearVal = totalInvest * Math.pow(1 + r, y);
+        const yearVal = totalInvest * Math.pow(1 + rate / 100, y);
         yearlyData.push({
           year: y,
           invested: totalInvest,
