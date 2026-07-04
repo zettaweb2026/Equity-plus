@@ -42,12 +42,13 @@ const Navbar = () => {
               </NavLink>
             </li>
 
-            <li>
+             <li>
               <NavLink to="/calculators" className="group relative cursor-pointer">
                 Calculators
                 <span className="absolute left-0 -bottom-1 h-[2px] w-0 rounded-full bg-white transition-all duration-300 group-hover:w-full"></span>
               </NavLink>
             </li>
+
 
             <li>
               <NavLink to="/contact" className="group relative cursor-pointer">
