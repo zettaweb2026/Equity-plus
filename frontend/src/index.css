@@ -21,21 +21,21 @@
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee 120s linear infinite;
+  animation: marquee 280s linear infinite;
   will-change: transform;
 }
 
 /* Tablet */
 @media (max-width: 1023px) {
   .animate-marquee {
-    animation-duration: 85s;
+    animation-duration: 210s;
   }
 }
 
 /* Mobile */
 @media (max-width: 767px) {
   .animate-marquee {
-    animation-duration: 65s;
+    animation-duration: 160s;
   }
 }
 

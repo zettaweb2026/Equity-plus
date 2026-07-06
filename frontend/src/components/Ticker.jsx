@@ -11,7 +11,8 @@ const Ticker = () => {
 
   const fetchTickerData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/stocks/ticker");
+      const host = `${window.location.protocol}//${window.location.hostname}:4000`;
+      const response = await fetch(`${host}/api/stocks/ticker`);
       if (!response.ok) {
         throw new Error("Failed to fetch market data");
       }
