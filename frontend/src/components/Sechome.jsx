@@ -1,7 +1,7 @@
 import { AiFillBank, AiFillGold } from "react-icons/ai";
 import { GoGraph } from "react-icons/go";
 import { IoLogoUsd } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const Widget = ({ icon, title, value, sub }) => (
   <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -33,7 +33,7 @@ const Sechome = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchMarket = async () => {
+  const fetchMarket = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -48,13 +48,22 @@ const Sechome = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchMarket();
-    const id = setInterval(fetchMarket, 60 * 1000);
-    return () => clearInterval(id);
-  }, []);
+    const timer = window.setTimeout(() => {
+      void fetchMarket();
+    }, 0);
+
+    const id = window.setInterval(() => {
+      void fetchMarket();
+    }, 60 * 1000);
+
+    return () => {
+      window.clearTimeout(timer);
+      window.clearInterval(id);
+    };
+  }, [fetchMarket]);
 
   return (
     <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
