@@ -3,6 +3,7 @@ import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import logo from "../assets/images/logo.webp";
+import Ticker from "../components/Ticker";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -119,6 +120,7 @@ const Navbar = () => {
           </button>
         </div>
       </nav>
+      <Ticker />
 
       <div
         className={`fixed inset-0 z-[100] bg-gradient-to-br from-indigo-700 to-cyan-500 transition-transform duration-500 md:hidden ${menuOpen ? "pointer-events-auto translate-x-0" : "pointer-events-none translate-x-full"
@@ -232,7 +234,7 @@ const Navbar = () => {
         </ul>
       </div>
 
-      <div className="h-24"></div>
+      <div className="h-[120px]"></div>
     </>
   );
 };
