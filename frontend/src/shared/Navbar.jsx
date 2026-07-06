@@ -37,10 +37,10 @@ const Navbar = () => {
   return (
     <>
       <nav className="fixed top-0 left-0 z-50 w-full bg-gradient-to-r from-indigo-500 to-teal-400 shadow-lg">
-        <div className="flex items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-          <img src={logo} alt="Logo" className="h-14 w-20 object-contain" />
+        <div className="flex items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
+          <img src={logo} alt="Logo" className="h-16 w-24 object-contain" />
 
-          <ul className="hidden items-center gap-8 text-lg font-bold text-white md:flex lg:text-xl">
+          <ul className="hidden items-center gap-8 text-xl font-bold text-white md:flex lg:text-2xl">
             <li>
               <NavLink to="/" className="group relative cursor-pointer">
                 Home
@@ -234,7 +234,7 @@ const Navbar = () => {
         </ul>
       </div>
 
-      <div className="h-[120px]"></div>
+      <div className="h-[170px]"></div>
     </>
   );
 };

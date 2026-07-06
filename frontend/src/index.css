@@ -4,18 +4,52 @@
   0% {
     transform: translateX(0%);
   }
+
   100% {
     transform: translateX(-50%);
   }
 }
 
+/* ========================================================
+   FINANCIAL TICKER — TV News Channel Style
+   Desktop : ~120s per full cycle   (comfortable for all)
+   Tablet  : ~85s  per full cycle
+   Mobile  : ~65s  per full cycle
+   ======================================================== */
+
+/* Desktop / Large screens — slowest, most readable */
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee 95s linear infinite; /* Reduced speed for comfortable readability of 100+ stocks */
+  animation: marquee 120s linear infinite;
+  will-change: transform;
 }
 
+/* Tablet */
+@media (max-width: 1023px) {
+  .animate-marquee {
+    animation-duration: 85s;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .animate-marquee {
+    animation-duration: 65s;
+  }
+}
+
+/* --------------------------------------------------------
+   PAUSE — Mouse hover (desktop)
+   -------------------------------------------------------- */
 .animate-marquee:hover,
-.relative:hover .animate-marquee {
+.ticker-track:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* --------------------------------------------------------
+   PAUSE — Touch hold (mobile/tablet) via JS class toggle
+   -------------------------------------------------------- */
+.animate-marquee.ticker-paused {
   animation-play-state: paused;
 }

@@ -241,7 +241,8 @@ const fetchStockData = async (symbol) => {
 };
 
 // Batch fetch to reduce concurrent connections
-const batchFetch = async (symbols, batchSize = 15) => {
+// Smaller batch + longer delay avoids Yahoo Finance rate-limit 404s for valid symbols
+const batchFetch = async (symbols, batchSize = 8) => {
   const results = [];
   for (let i = 0; i < symbols.length; i += batchSize) {
     const batch = symbols.slice(i, i + batchSize);
@@ -249,7 +250,7 @@ const batchFetch = async (symbols, batchSize = 15) => {
     const batchResults = await Promise.all(promises);
     results.push(...batchResults);
     if (i + batchSize < symbols.length) {
-      await new Promise(resolve => setTimeout(resolve, 80)); // 80ms sleep between batches
+      await new Promise(resolve => setTimeout(resolve, 400)); // 400ms between batches
     }
   }
   return results;

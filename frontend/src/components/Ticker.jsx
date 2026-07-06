@@ -6,6 +6,8 @@ const Ticker = () => {
   const [marketStatus, setMarketStatus] = useState("Market Closed");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // Touch-hold pause: lets mobile/tablet users hold to freeze the ticker
+  const [isPaused, setIsPaused] = useState(false);
 
   const fetchTickerData = async () => {
     try {
@@ -16,7 +18,7 @@ const Ticker = () => {
       const result = await response.json();
       
       // Filter out any stocks that had API errors or returned null values
-      const validStocks = result.data.filter(
+      const validStocks = (result.data || []).filter(
         stock => !stock.error && stock.price !== null
       );
       
@@ -70,8 +72,9 @@ const Ticker = () => {
   };
 
   const cleanName = (name) => {
-    if (name.length > 20) {
-      return name.substring(0, 18) + "..";
+    // Show up to 28 chars so company names are fully readable
+    if (name.length > 28) {
+      return name.substring(0, 26) + "..";
     }
     return name;
   };
@@ -92,8 +95,8 @@ const Ticker = () => {
 
   if (loading) {
     return (
-      <div className="fixed top-[80px] left-0 z-40 flex h-10 w-full items-center justify-center border-b border-slate-800 bg-slate-900 px-4 text-xs font-bold tracking-wider text-slate-400 select-none shadow-md">
-        <RefreshCw className="mr-2 h-3.5 w-3.5 animate-spin text-teal-400" />
+      <div className="fixed top-[106px] left-0 z-40 flex h-16 w-full items-center justify-center border-b border-slate-800 bg-slate-900 px-4 text-sm font-bold tracking-wider text-slate-400 select-none shadow-md">
+        <RefreshCw className="mr-2 h-4 w-4 animate-spin text-teal-400" />
         LOADING INDIAN MARKET TICKER...
       </div>
     );
@@ -101,28 +104,33 @@ const Ticker = () => {
 
   if (error && stocks.length === 0) {
     return (
-      <div className="fixed top-[80px] left-0 z-40 flex h-10 w-full items-center justify-center border-b border-slate-800 bg-slate-900 px-4 text-xs font-bold tracking-wider text-rose-500 select-none shadow-md">
+      <div className="fixed top-[106px] left-0 z-40 flex h-16 w-full items-center justify-center border-b border-slate-800 bg-slate-900 px-4 text-sm font-bold tracking-wider text-rose-500 select-none shadow-md">
         ⚠️ TICKER OFFLINE: {error}
       </div>
     );
   }
 
   return (
-    <div className="fixed top-[80px] left-0 z-40 flex h-10 w-full items-center border-b border-slate-800 bg-slate-900 text-slate-100 select-none shadow-md overflow-hidden">
+    <div className="fixed top-[106px] left-0 z-40 flex h-16 w-full items-center border-b border-slate-800 bg-slate-900 text-slate-100 select-none shadow-md overflow-hidden">
       {/* Dynamic Status Badge */}
-      <div className={`z-50 flex h-full items-center gap-1.5 bg-gradient-to-r px-4 text-xxs font-black tracking-widest uppercase shadow-xl ${getStatusBadgeStyle()}`}>
+      <div className={`z-50 flex h-full items-center gap-2 bg-gradient-to-r px-5 text-xs font-black tracking-widest uppercase shadow-xl ${getStatusBadgeStyle()}`}>
         {marketStatus === "Market Open" && (
-          <span className="relative flex h-2 w-2">
+          <span className="relative flex h-2.5 w-2.5">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-200 opacity-75"></span>
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
           </span>
         )}
         {marketStatus}
       </div>
 
-      {/* Scrolling Track */}
-      <div className="relative flex flex-1 overflow-hidden">
-        <div className="animate-marquee flex items-center py-2.5">
+      {/* Scrolling Track — hover pauses on desktop, touch-hold pauses on mobile */}
+      <div
+        className="ticker-track relative flex flex-1 overflow-hidden"
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
+        onTouchCancel={() => setIsPaused(false)}
+      >
+        <div className={`animate-marquee flex items-center py-2.5${isPaused ? " ticker-paused" : ""}`}>
           {/* Loop double lists for infinite scroll visual seamlessness */}
           {[...stocks, ...stocks].map((stock, idx) => {
             const isPositive = stock.change >= 0;
@@ -132,7 +140,7 @@ const Ticker = () => {
             return (
               <div
                 key={`${stock.symbol}-${idx}`}
-                className="mx-6 flex items-center gap-2.5 whitespace-nowrap text-xs font-bold border-r border-slate-800/80 pr-6"
+                className="mx-10 flex items-center gap-4 whitespace-nowrap text-sm font-bold border-r border-slate-700/60 pr-10"
               >
                 {/* Symbol/Index Label */}
                 <span className={stock.isIndex ? "text-indigo-400 font-extrabold" : "text-slate-400"}>
@@ -147,20 +155,20 @@ const Ticker = () => {
                 
                 {/* Profit/Loss movement badge */}
                 <span
-                  className={`flex items-center gap-0.5 rounded px-1.5 py-0.5 font-extrabold text-xxs transition-colors duration-300 ${
+                  className={`flex items-center gap-1 rounded px-2 py-0.5 font-extrabold text-xs transition-colors duration-300 ${
                     isPositive ? "bg-emerald-500/10 text-emerald-400" : "bg-rose-500/10 text-rose-400"
                   }`}
                 >
-                  <span className="mr-0.5 text-xxs font-black">{isPositive ? "▲" : "▼"}</span>
+                  <span className="mr-0.5 text-xs font-black">{isPositive ? "▲" : "▼"}</span>
                   <span>{absoluteChange}</span>
-                  <span className="ml-1 text-[10px] font-semibold opacity-95">
+                  <span className="ml-1 text-xs font-semibold opacity-95">
                     ({isPositive ? "+" : ""}{stock.changePercent}%)
                   </span>
                 </span>
 
                 {/* Trading Volume (only for actual stocks) */}
                 {!stock.isIndex && stock.volume > 0 && (
-                  <span className="text-xxs text-slate-500 font-medium">
+                  <span className="text-xs text-slate-500 font-medium">
                     Vol: {formatVolume(stock.volume)}
                   </span>
                 )}
