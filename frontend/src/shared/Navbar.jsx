@@ -6,6 +6,25 @@ import logo from "../assets/images/logo.webp";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mobileCalculatorsOpen, setMobileCalculatorsOpen] = useState(false);
+
+  const serviceItems = [
+    "Market Insights",
+    "Financial Calculators",
+    "Learn Investing",
+    "Stock Analysis",
+    "Portfolio Planning",
+    "Secure Platform",
+  ];
+
+  const calculatorItems = [
+    { id: "sip", label: "SIP Calculator" },
+    { id: "lumpsum", label: "Lumpsum Calculator" },
+    { id: "step-up-sip", label: "Step-up SIP Calculator" },
+    { id: "emi", label: "EMI Calculator" },
+    { id: "swp", label: "SWP Calculator" },
+  ];
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -35,18 +54,42 @@ const Navbar = () => {
               </NavLink>
             </li>
 
-            <li>
+            <li className="group relative">
               <NavLink to="/services" className="group relative cursor-pointer">
                 Services
                 <span className="absolute left-0 -bottom-1 h-[2px] w-0 rounded-full bg-white transition-all duration-300 group-hover:w-full"></span>
               </NavLink>
+              <ul className="invisible absolute left-0 top-full z-50 mt-3 w-72 space-y-1 rounded-3xl bg-white/95 px-3 py-3 text-left text-slate-800 shadow-2xl backdrop-blur-xl opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100">
+                {serviceItems.map((item) => (
+                  <li key={item}>
+                    <NavLink
+                      to="/services"
+                      className="block rounded-2xl px-4 py-2 text-sm font-semibold transition hover:bg-slate-100"
+                    >
+                      {item}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
             </li>
 
-             <li>
+            <li className="group relative">
               <NavLink to="/calculators" className="group relative cursor-pointer">
                 Calculators
                 <span className="absolute left-0 -bottom-1 h-[2px] w-0 rounded-full bg-white transition-all duration-300 group-hover:w-full"></span>
               </NavLink>
+              <ul className="invisible absolute left-0 top-full z-50 mt-3 w-72 space-y-1 rounded-3xl bg-white/95 px-3 py-3 text-left text-slate-800 shadow-2xl backdrop-blur-xl opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100">
+                {calculatorItems.map((item) => (
+                  <li key={item.id}>
+                    <NavLink
+                      to={`/calculator/${item.id}`}
+                      className="block rounded-2xl px-4 py-2 text-sm font-semibold transition hover:bg-slate-100"
+                    >
+                      {item.label}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
             </li>
 
 
@@ -78,9 +121,8 @@ const Navbar = () => {
       </nav>
 
       <div
-        className={`fixed inset-0 z-[100] bg-gradient-to-br from-indigo-700 to-cyan-500 transition-transform duration-500 md:hidden ${
-          menuOpen ? "pointer-events-auto translate-x-0" : "pointer-events-none translate-x-full"
-        }`}
+        className={`fixed inset-0 z-[100] bg-gradient-to-br from-indigo-700 to-cyan-500 transition-transform duration-500 md:hidden ${menuOpen ? "pointer-events-auto translate-x-0" : "pointer-events-none translate-x-full"
+          }`}
       >
         <button
           type="button"
@@ -112,24 +154,60 @@ const Navbar = () => {
             </NavLink>
           </li>
 
-          <li>
-            <NavLink
-              to="/services"
-              onClick={() => setMenuOpen(false)}
-              className="flex w-72 justify-center rounded-xl px-4 py-3 text-center transition-all duration-300 hover:scale-105 hover:bg-white hover:text-indigo-700"
+          <li className="w-full">
+            <button
+              type="button"
+              onClick={() => setMobileServicesOpen((prev) => !prev)}
+              className="flex w-full items-center justify-between rounded-xl bg-white/10 px-4 py-3 text-left text-white transition-all duration-300 hover:bg-white/20"
             >
-              Services
-            </NavLink>
+              <span>Services</span>
+              <span>{mobileServicesOpen ? "−" : "+"}</span>
+            </button>
+            {mobileServicesOpen && (
+              <div className="mt-3 space-y-2 px-4">
+                {serviceItems.map((item) => (
+                  <NavLink
+                    key={item}
+                    to="/services"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setMobileServicesOpen(false);
+                    }}
+                    className="block rounded-xl bg-white px-4 py-3 text-center font-semibold text-indigo-700 transition-all duration-300 hover:bg-indigo-100"
+                  >
+                    {item}
+                  </NavLink>
+                ))}
+              </div>
+            )}
           </li>
 
-          <li>
-            <NavLink
-              to="/calculators"
-              onClick={() => setMenuOpen(false)}
-              className="flex w-72 justify-center rounded-xl px-4 py-3 text-center transition-all duration-300 hover:scale-105 hover:bg-white hover:text-indigo-700"
+          <li className="w-full">
+            <button
+              type="button"
+              onClick={() => setMobileCalculatorsOpen((prev) => !prev)}
+              className="flex w-full items-center justify-between rounded-xl bg-white/10 px-4 py-3 text-left text-white transition-all duration-300 hover:bg-white/20"
             >
-              Calculators
-            </NavLink>
+              <span>Calculators</span>
+              <span>{mobileCalculatorsOpen ? "−" : "+"}</span>
+            </button>
+            {mobileCalculatorsOpen && (
+              <div className="mt-3 space-y-2 px-4">
+                {calculatorItems.map((item) => (
+                  <NavLink
+                    key={item.id}
+                    to={`/calculator/${item.id}`}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setMobileCalculatorsOpen(false);
+                    }}
+                    className="block rounded-xl bg-white px-4 py-3 text-center font-semibold text-indigo-700 transition-all duration-300 hover:bg-indigo-100"
+                  >
+                    {item.label}
+                  </NavLink>
+                ))}
+              </div>
+            )}
           </li>
 
           <li>
