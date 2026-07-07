@@ -15,95 +15,68 @@ const Navbar = () => {
 
   const serviceItems = [
     "Market Insights",
-    "Financial Calculators",
-    "Learn Investing",
-    "Stock Analysis",
-    "Portfolio Planning",
-    "Secure Platform",
+    "Investment Planning",
+    "Portfolio Analysis",
+    "Financial Education",
   ];
-
   const calculatorItems = [
-    { id: "sip", label: "SIP Calculator" },
-    { id: "lumpsum", label: "Lumpsum Calculator" },
-    { id: "step-up-sip", label: "Step-up SIP Calculator" },
-    { id: "emi", label: "EMI Calculator" },
-    { id: "swp", label: "SWP Calculator" },
+    "EMI Calculator",
+    "Investment Returns",
+    "Tax Calculator",
+    "Retirement Planner",
   ];
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen]);
 
   return (
-    <>
-      <nav className="fixed top-0 left-0 z-50 w-full bg-gradient-to-r from-indigo-500 to-teal-400 shadow-lg">
-        <div className="flex items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
-          <img src={logo} alt="Logo" className="h-16 w-24 object-contain" />
+    <nav className="border-b border-slate-200 bg-white shadow-sm">
+      {/* Desktop Navbar */}
+      <div className="hidden px-6 py-4 md:block">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
+          <div className="flex items-center gap-12">
+            <NavLink to="/" className="flex items-center gap-2">
+              <img src={logo} alt="Equity Plus" className="h-8 w-auto" />
+            </NavLink>
 
-          <ul className="hidden items-center gap-8 text-xl font-bold text-white md:flex lg:text-2xl">
-            <li>
-              <NavLink to="/" className="group relative cursor-pointer">
+            <div className="flex items-center gap-8">
+              <NavLink to="/" className="text-sm font-medium text-slate-600 transition hover:text-slate-900">
                 Home
-                <span className="absolute left-0 -bottom-1 h-[2px] w-0 rounded-full bg-white transition-all duration-300 group-hover:w-full"></span>
               </NavLink>
-            </li>
-
-            <li>
-              <NavLink to="/about" className="group relative cursor-pointer">
+              <NavLink to="/about" className="text-sm font-medium text-slate-600 transition hover:text-slate-900">
                 About
-                <span className="absolute left-0 -bottom-1 h-[2px] w-0 rounded-full bg-white transition-all duration-300 group-hover:w-full"></span>
               </NavLink>
-            </li>
 
-            <li className="group relative">
-              <NavLink to="/services" className="group relative cursor-pointer">
-                Services
-                <span className="absolute left-0 -bottom-1 h-[2px] w-0 rounded-full bg-white transition-all duration-300 group-hover:w-full"></span>
-              </NavLink>
-              <ul className="invisible absolute left-0 top-full z-50 mt-3 w-72 space-y-1 rounded-3xl bg-white/95 px-3 py-3 text-left text-slate-800 shadow-2xl backdrop-blur-xl opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100">
-                {serviceItems.map((item) => (
-                  <li key={item}>
-                    <NavLink
-                      to="/services"
-                      className="block rounded-2xl px-4 py-2 text-sm font-semibold transition hover:bg-slate-100"
-                    >
+              {/* Services Dropdown */}
+              <div className="group relative">
+                <button className="text-sm font-medium text-slate-600 transition hover:text-slate-900">
+                  Services
+                </button>
+                <div className="invisible absolute left-0 top-full mt-2 w-48 rounded-lg border border-slate-200 bg-white py-2 shadow-lg transition group-hover:visible">
+                  {serviceItems.map((item) => (
+                    <a key={item} href="#" className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
                       {item}
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
-            </li>
+                    </a>
+                  ))}
+                </div>
+              </div>
 
-            <li className="group relative">
-              <NavLink to="/calculators" className="group relative cursor-pointer">
-                Calculators
-                <span className="absolute left-0 -bottom-1 h-[2px] w-0 rounded-full bg-white transition-all duration-300 group-hover:w-full"></span>
-              </NavLink>
-              <ul className="invisible absolute left-0 top-full z-50 mt-3 w-72 space-y-1 rounded-3xl bg-white/95 px-3 py-3 text-left text-slate-800 shadow-2xl backdrop-blur-xl opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100">
-                {calculatorItems.map((item) => (
-                  <li key={item.id}>
-                    <NavLink
-                      to={`/calculator/${item.id}`}
-                      className="block rounded-2xl px-4 py-2 text-sm font-semibold transition hover:bg-slate-100"
-                    >
-                      {item.label}
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
-            </li>
+              {/* Calculators Dropdown */}
+              <div className="group relative">
+                <NavLink to="/calculators" className="text-sm font-medium text-slate-600 transition hover:text-slate-900">
+                  Calculators
+                </NavLink>
+                <div className="invisible absolute left-0 top-full mt-2 w-48 rounded-lg border border-slate-200 bg-white py-2 shadow-lg transition group-hover:visible">
+                  {calculatorItems.map((item) => (
+                    <a key={item} href="#" className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                      {item}
+                    </a>
+                  ))}
+                </div>
+              </div>
 
-
-            <li>
-              <NavLink to="/contact" className="group relative cursor-pointer">
+              <NavLink to="/contact" className="text-sm font-medium text-slate-600 transition hover:text-slate-900">
                 Contact
-                <span className="absolute left-0 -bottom-1 h-[2px] w-0 rounded-full bg-white transition-all duration-300 group-hover:w-full"></span>
               </NavLink>
-            </li>
-          </ul>
+            </div>
+          </div>
 
           {user ? (
             <button
@@ -128,100 +101,115 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
-            className="inline-flex items-center justify-center rounded-full p-2 text-3xl text-white transition hover:bg-white/20 md:hidden"
-            aria-label="Open menu"
-            aria-expanded={menuOpen}
+            className="hidden text-slate-900 md:hidden"
           >
-            <HiOutlineMenuAlt3 />
+            <HiOutlineMenuAlt3 size={24} />
           </button>
         </div>
-      </nav>
+      </div>
+
+      {/* Ticker */}
       <Ticker />
 
-      <div
-        className={`fixed inset-0 z-[100] bg-gradient-to-br from-indigo-700 to-cyan-500 transition-transform duration-500 md:hidden ${menuOpen ? "pointer-events-auto translate-x-0" : "pointer-events-none translate-x-full"
-          }`}
-      >
-        <button
-          type="button"
-          onClick={() => setMenuOpen(false)}
-          className="absolute top-5 right-5 text-5xl text-white"
-          aria-label="Close menu"
-        >
-          <IoClose />
-        </button>
+      {/* Mobile Navbar */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 md:hidden">
+          <div className="flex h-screen flex-col bg-gradient-to-b from-slate-900 to-slate-800 text-white">
+            <div className="flex items-center justify-between border-b border-slate-700 px-6 py-4">
+              <img src={logo} alt="Equity Plus" className="h-8 w-auto" />
+              <button onClick={() => setMenuOpen(false)} className="text-white">
+                <IoClose size={24} />
+              </button>
+            </div>
 
-        <ul className="flex h-full flex-col items-center justify-center gap-6 text-2xl font-bold text-white sm:text-3xl">
-          <li>
-            <NavLink
-              to="/"
-              onClick={() => setMenuOpen(false)}
-              className="flex w-72 justify-center rounded-xl px-4 py-3 text-center transition-all duration-300 hover:scale-105 hover:bg-white hover:text-indigo-700"
-            >
-              Home
-            </NavLink>
-          </li>
+            <ul className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
+              <li>
+                <NavLink
+                  to="/"
+                  onClick={() => setMenuOpen(false)}
+                  className="block text-center text-sm font-medium transition hover:text-indigo-400"
+                >
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/about"
+                  onClick={() => setMenuOpen(false)}
+                  className="block text-center text-sm font-medium transition hover:text-indigo-400"
+                >
+                  About
+                </NavLink>
+              </li>
 
-          <li>
-            <NavLink
-              to="/about"
-              onClick={() => setMenuOpen(false)}
-              className="flex w-72 justify-center rounded-xl px-4 py-3 text-center transition-all duration-300 hover:scale-105 hover:bg-white hover:text-indigo-700"
-            >
-              About
-            </NavLink>
-          </li>
+              {/* Mobile Services */}
+              <li>
+                <button
+                  onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                  className="w-full text-center text-sm font-medium transition hover:text-indigo-400"
+                >
+                  Services
+                </button>
+                {mobileServicesOpen && (
+                  <div className="mt-2 space-y-2">
+                    {serviceItems.map((item) => (
+                      <a key={item} href="#" className="block text-center text-sm text-slate-300 hover:text-indigo-400">
+                        {item}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </li>
 
-          <li className="w-full">
-            <button
-              type="button"
-              onClick={() => setMobileServicesOpen((prev) => !prev)}
-              className="flex w-full items-center justify-between rounded-xl bg-white/10 px-4 py-3 text-left text-white transition-all duration-300 hover:bg-white/20"
-            >
-              <span>Services</span>
-              <span>{mobileServicesOpen ? "−" : "+"}</span>
-            </button>
-            {mobileServicesOpen && (
-              <div className="mt-3 space-y-2 px-4">
-                {serviceItems.map((item) => (
-                  <NavLink
-                    key={item}
-                    to="/services"
+              {/* Mobile Calculators */}
+              <li>
+                <button
+                  onClick={() => setMobileCalculatorsOpen(!mobileCalculatorsOpen)}
+                  className="w-full text-center text-sm font-medium transition hover:text-indigo-400"
+                >
+                  Calculators
+                </button>
+                {mobileCalculatorsOpen && (
+                  <div className="mt-2 space-y-2">
+                    {calculatorItems.map((item) => (
+                      <a key={item} href="#" className="block text-center text-sm text-slate-300 hover:text-indigo-400">
+                        {item}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </li>
+
+              <li>
+                <NavLink
+                  to="/contact"
+                  onClick={() => setMenuOpen(false)}
+                  className="block text-center text-sm font-medium transition hover:text-indigo-400"
+                >
+                  Contact
+                </NavLink>
+              </li>
+
+              <li>
+                {user ? (
+                  <button
+                    type="button"
                     onClick={() => {
+                      logout();
                       setMenuOpen(false);
-                      setMobileServicesOpen(false);
+                      navigate('/sign');
                     }}
-                    className="block rounded-xl bg-white px-4 py-3 text-center font-semibold text-indigo-700 transition-all duration-300 hover:bg-indigo-100"
+                    className="flex w-72 justify-center rounded-xl px-4 py-3 text-center transition-all duration-300 hover:scale-105 hover:bg-white hover:text-indigo-700"
                   >
-                    {item}
-                  </NavLink>
-                ))}
-              </div>
-            )}
-          </li>
-
-          <li className="w-full">
-            <button
-              type="button"
-              onClick={() => setMobileCalculatorsOpen((prev) => !prev)}
-              className="flex w-full items-center justify-between rounded-xl bg-white/10 px-4 py-3 text-left text-white transition-all duration-300 hover:bg-white/20"
-            >
-              <span>Calculators</span>
-              <span>{mobileCalculatorsOpen ? "−" : "+"}</span>
-            </button>
-            {mobileCalculatorsOpen && (
-              <div className="mt-3 space-y-2 px-4">
-                {calculatorItems.map((item) => (
+                    Logout
+                  </button>
+                ) : (
                   <NavLink
-                    key={item.id}
-                    to={`/calculator/${item.id}`}
-                    onClick={() => {
-                      setMenuOpen(false);
-                      setMobileCalculatorsOpen(false);
-                    }}
-                    className="block rounded-xl bg-white px-4 py-3 text-center font-semibold text-indigo-700 transition-all duration-300 hover:bg-indigo-100"
+                    to="/sign"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex w-72 justify-center rounded-xl px-4 py-3 text-center transition-all duration-300 hover:scale-105 hover:bg-white hover:text-indigo-700"
                   >
-                    {item.label}
+                    Sign In
                   </NavLink>
                 ))}
               </div>
