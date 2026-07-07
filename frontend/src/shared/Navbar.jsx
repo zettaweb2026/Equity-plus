@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/images/logo.webp";
 import Ticker from "../components/Ticker";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [mobileCalculatorsOpen, setMobileCalculatorsOpen] = useState(false);
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const serviceItems = [
     "Market Insights",
@@ -102,12 +105,25 @@ const Navbar = () => {
             </li>
           </ul>
 
-          <NavLink
-            to="/sign"
-            className="hidden rounded-lg bg-white px-5 py-2 font-bold text-indigo-600 transition-all duration-300 hover:bg-black hover:text-white md:block"
-          >
-            Sign Up
-          </NavLink>
+          {user ? (
+            <button
+              type="button"
+              onClick={() => {
+                logout();
+                navigate('/sign');
+              }}
+              className="hidden rounded-lg bg-white px-5 py-2 font-bold text-indigo-600 transition-all duration-300 hover:bg-black hover:text-white md:block"
+            >
+              Logout
+            </button>
+          ) : (
+            <NavLink
+              to="/sign"
+              className="hidden rounded-lg bg-white px-5 py-2 font-bold text-indigo-600 transition-all duration-300 hover:bg-black hover:text-white md:block"
+            >
+              Sign In
+            </NavLink>
+          )}
 
           <button
             type="button"
@@ -223,13 +239,27 @@ const Navbar = () => {
           </li>
 
           <li>
-            <NavLink
-              to="/sign"
-              onClick={() => setMenuOpen(false)}
-              className="flex w-72 justify-center rounded-xl px-4 py-3 text-center transition-all duration-300 hover:scale-105 hover:bg-white hover:text-indigo-700"
-            >
-              Sign Up
-            </NavLink>
+            {user ? (
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  setMenuOpen(false);
+                  navigate('/sign');
+                }}
+                className="flex w-72 justify-center rounded-xl px-4 py-3 text-center transition-all duration-300 hover:scale-105 hover:bg-white hover:text-indigo-700"
+              >
+                Logout
+              </button>
+            ) : (
+              <NavLink
+                to="/sign"
+                onClick={() => setMenuOpen(false)}
+                className="flex w-72 justify-center rounded-xl px-4 py-3 text-center transition-all duration-300 hover:scale-105 hover:bg-white hover:text-indigo-700"
+              >
+                Sign In
+              </NavLink>
+            )}
           </li>
         </ul>
       </div>

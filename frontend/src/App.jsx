@@ -8,21 +8,26 @@ import Contact from "./pages/Contact"
 import Services from "./pages/Services"
 import Sign from "./pages/Sign"
 import Footer from "./shared/Footer"
-function App() {
+import ProtectedRoute from "./components/ProtectedRoute"
+import AdminDashboard from "./pages/AdminDashboard"
+import UserDashboard from "./pages/UserDashboard"
 
+function App() {
   return (
     <>
-    <Navbar />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-         <Route path="/about" element={<About />} />
-         <Route path="/calculators" element={<Calculators />} />
-         <Route path="/calculator/:type" element={<CalculatorPage />} />
-         <Route path="/contact" element={<Contact />} />
-         <Route path="/services" element={<Services />} />
-         <Route path="/sign" element={<Sign />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/calculators" element={<Calculators />} />
+        <Route path="/calculator/:type" element={<CalculatorPage />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/sign" element={<Sign />} />
+        <Route path="/admin-dashboard" element={<ProtectedRoute allowedRole="admin"><AdminDashboard /></ProtectedRoute>} />
+        <Route path="/user-dashboard" element={<ProtectedRoute allowedRole="user"><UserDashboard /></ProtectedRoute>} />
       </Routes>
-    <Footer />
+      <Footer />
     </>
   )
 }
