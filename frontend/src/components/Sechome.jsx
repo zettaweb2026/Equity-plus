@@ -37,7 +37,7 @@ const Sechome = () => {
     setLoading(true);
     setError(null);
     try {
-      const host = `${window.location.protocol}//${window.location.hostname}:4000`;
+      const host = import.meta.env.VITE_API_BASE_URL;
       const resp = await fetch(`${host}/api/market`);
       if (!resp.ok) throw new Error('Network response not ok');
       const json = await resp.json();
