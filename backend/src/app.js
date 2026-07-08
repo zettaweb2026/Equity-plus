@@ -2,6 +2,8 @@ const express = require('express');
 const routes = require('./routes');
 const logger = require('./middlewares/logger');
 
+const authRoutes = require("./routes/auth.routes");
+
 const app = express();
 
 app.use(express.json());
@@ -24,6 +26,8 @@ app.use((req, res, next) => {
 
 app.use(logger);
 app.use('/api', routes);
+app.use("/api/auth", authRoutes);
+
 
 app.get('/', (req, res) => {
   res.send('Welcome to the backend API!');
@@ -32,5 +36,7 @@ app.get('/', (req, res) => {
 app.use((req, res) => {
   res.status(404).json({ error: 'Not Found' });
 });
+
+
 
 module.exports = app;
