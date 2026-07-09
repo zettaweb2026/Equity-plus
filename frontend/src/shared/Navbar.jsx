@@ -9,6 +9,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [mobileCalculatorsOpen, setMobileCalculatorsOpen] = useState(false);
+  const [activeMega, setActiveMega] = useState(null);
 
   const serviceItems = [
     "Market Insights",
@@ -34,93 +35,151 @@ const Navbar = () => {
     };
   }, [menuOpen]);
 
+  const navLinkClass =
+    "desktop-nav-link group relative inline-flex cursor-pointer items-center py-2 text-base font-bold tracking-tight text-white/90 transition-colors duration-300 hover:text-white lg:text-lg";
+
   return (
     <>
-      <nav className="fixed top-0 left-0 z-50 w-full bg-gradient-to-r from-indigo-500 to-teal-400 shadow-lg">
-        <div className="flex items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
-          <img src={logo} alt="Logo" className="h-16 w-24 object-contain" />
+      <header className="sticky top-0 z-50 w-full">
+        <nav
+          className={`desktop-expanding-nav hidden w-full overflow-hidden bg-gradient-to-r from-indigo-600 via-blue-500 to-teal-400 text-white shadow-[0_18px_55px_-30px_rgba(15,23,42,0.85)] md:block ${activeMega ? "is-mega-open" : ""}`}
+          onMouseLeave={() => setActiveMega(null)}
+        >
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+            <NavLink
+              to="/"
+              className="flex h-16 w-28 items-center justify-center rounded-2xl border border-white/15 bg-white/10 px-3 shadow-inner shadow-white/10 backdrop-blur-md transition duration-300 hover:bg-white/15"
+              aria-label="Equity Plus home"
+            >
+              <img
+                src={logo}
+                alt="Equity Plus"
+                className="h-12 w-full object-contain drop-shadow-[0_8px_16px_rgba(15,23,42,0.18)]"
+              />
+            </NavLink>
 
-          <ul className="hidden items-center gap-8 text-xl font-bold text-white md:flex lg:text-2xl">
-            <li>
-              <NavLink to="/" className="group relative cursor-pointer">
-                Home
-                <span className="absolute left-0 -bottom-1 h-[2px] w-0 rounded-full bg-white transition-all duration-300 group-hover:w-full"></span>
-              </NavLink>
-            </li>
+            <ul className="flex items-center gap-6 lg:gap-9">
+              <li onMouseEnter={() => setActiveMega(null)}>
+                <NavLink to="/" className={navLinkClass}>
+                  Home
+                  <span className="desktop-nav-underline"></span>
+                </NavLink>
+              </li>
 
-            <li>
-              <NavLink to="/about" className="group relative cursor-pointer">
-                About
-                <span className="absolute left-0 -bottom-1 h-[2px] w-0 rounded-full bg-white transition-all duration-300 group-hover:w-full"></span>
-              </NavLink>
-            </li>
+              <li onMouseEnter={() => setActiveMega(null)}>
+                <NavLink to="/about" className={navLinkClass}>
+                  About
+                  <span className="desktop-nav-underline"></span>
+                </NavLink>
+              </li>
 
-            <li className="group relative">
-              <NavLink to="/services" className="group relative cursor-pointer">
-                Services
-                <span className="absolute left-0 -bottom-1 h-[2px] w-0 rounded-full bg-white transition-all duration-300 group-hover:w-full"></span>
-              </NavLink>
-              <ul className="invisible absolute left-0 top-full z-50 mt-3 w-72 space-y-1 rounded-3xl bg-white/95 px-3 py-3 text-left text-slate-800 shadow-2xl backdrop-blur-xl opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100">
-                {serviceItems.map((item) => (
-                  <li key={item}>
-                    <NavLink
-                      to="/services"
-                      className="block rounded-2xl px-4 py-2 text-sm font-semibold transition hover:bg-slate-100"
-                    >
-                      {item}
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
-            </li>
+              <li
+                className={`services-menu ${activeMega === "services" ? "is-active-mega" : ""}`}
+                onMouseEnter={() => setActiveMega("services")}
+                onFocus={() => setActiveMega("services")}
+              >
+                <NavLink to="/services" className={navLinkClass}>
+                  Services
+                  <span className="desktop-nav-underline"></span>
+                </NavLink>
+              </li>
 
-            <li className="group relative">
-              <NavLink to="/calculators" className="group relative cursor-pointer">
-                Calculators
-                <span className="absolute left-0 -bottom-1 h-[2px] w-0 rounded-full bg-white transition-all duration-300 group-hover:w-full"></span>
-              </NavLink>
-              <ul className="invisible absolute left-0 top-full z-50 mt-3 w-72 space-y-1 rounded-3xl bg-white/95 px-3 py-3 text-left text-slate-800 shadow-2xl backdrop-blur-xl opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100">
-                {calculatorItems.map((item) => (
-                  <li key={item.id}>
-                    <NavLink
-                      to={`/calculator/${item.id}`}
-                      className="block rounded-2xl px-4 py-2 text-sm font-semibold transition hover:bg-slate-100"
-                    >
-                      {item.label}
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
-            </li>
+              <li
+                className={`calculators-menu ${activeMega === "calculators" ? "is-active-mega" : ""}`}
+                onMouseEnter={() => setActiveMega("calculators")}
+                onFocus={() => setActiveMega("calculators")}
+              >
+                <NavLink to="/calculators" className={navLinkClass}>
+                  Calculators
+                  <span className="desktop-nav-underline"></span>
+                </NavLink>
+              </li>
 
+              <li onMouseEnter={() => setActiveMega(null)}>
+                <NavLink to="/contact" className={navLinkClass}>
+                  Contact
+                  <span className="desktop-nav-underline"></span>
+                </NavLink>
+              </li>
+            </ul>
 
-            <li>
-              <NavLink to="/contact" className="group relative cursor-pointer">
-                Contact
-                <span className="absolute left-0 -bottom-1 h-[2px] w-0 rounded-full bg-white transition-all duration-300 group-hover:w-full"></span>
-              </NavLink>
-            </li>
-          </ul>
+            <NavLink
+              to="/sign"
+              onMouseEnter={() => setActiveMega(null)}
+              className="rounded-full border border-white/30 bg-white px-5 py-2.5 text-sm font-extrabold text-indigo-700 shadow-lg shadow-indigo-950/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-950 hover:text-white lg:text-base"
+            >
+              Sign Up
+            </NavLink>
+          </div>
 
-          <NavLink
-            to="/sign"
-            className="hidden rounded-lg bg-white px-5 py-2 font-bold text-indigo-600 transition-all duration-300 hover:bg-black hover:text-white md:block"
-          >
-            Sign Up
-          </NavLink>
+          <div className="mega-shell">
+            <div className="mx-auto max-w-7xl px-6 pb-7 lg:px-8">
+              <div className="mega-stage">
+                <div className={`mega-panel services-panel ${activeMega === "services" ? "is-active" : ""}`}>
+                  <div className="mega-panel-header">
+                    <p className="mega-eyebrow">Equity Plus services</p>
+                    <p className="mega-title">Tools and guidance for smarter decisions.</p>
+                  </div>
+                  <div className="mega-link-grid">
+                    {serviceItems.map((item) => (
+                      <NavLink key={item} to="/services" className="mega-link">
+                        <span>{item}</span>
+                      </NavLink>
+                    ))}
+                  </div>
+                </div>
 
-          <button
-            type="button"
-            onClick={() => setMenuOpen(true)}
-            className="inline-flex items-center justify-center rounded-full p-2 text-3xl text-white transition hover:bg-white/20 md:hidden"
-            aria-label="Open menu"
-            aria-expanded={menuOpen}
-          >
-            <HiOutlineMenuAlt3 />
-          </button>
-        </div>
-      </nav>
-      <Ticker />
+                <div className={`mega-panel calculators-panel ${activeMega === "calculators" ? "is-active" : ""}`}>
+                  <div className="mega-panel-header">
+                    <p className="mega-eyebrow">Financial calculators</p>
+                    <p className="mega-title">Plan SIPs, EMIs, SWPs, and long-term goals.</p>
+                  </div>
+                  <div className="mega-link-grid">
+                    {calculatorItems.map((item) => (
+                      <NavLink
+                        key={item.id}
+                        to={`/calculator/${item.id}`}
+                        className="mega-link"
+                      >
+                        <span>{item.label}</span>
+                      </NavLink>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <nav className="w-full bg-gradient-to-r from-indigo-500 to-teal-400 shadow-lg md:hidden">
+          <div className="flex items-center justify-between px-4 py-5 sm:px-6">
+            <NavLink
+              to="/"
+              onClick={() => setMenuOpen(false)}
+              className="flex h-16 w-28 items-center justify-center rounded-2xl border border-white/15 bg-white/10 px-3 shadow-inner shadow-white/10 backdrop-blur-md"
+              aria-label="Equity Plus home"
+            >
+              <img
+                src={logo}
+                alt="Equity Plus"
+                className="h-12 w-full object-contain drop-shadow-[0_8px_16px_rgba(15,23,42,0.18)]"
+              />
+            </NavLink>
+
+            <button
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              className="inline-flex items-center justify-center rounded-full p-2 text-3xl text-white transition hover:bg-white/20"
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+            >
+              <HiOutlineMenuAlt3 />
+            </button>
+          </div>
+        </nav>
+
+        <Ticker />
+      </header>
 
       <div
         className={`fixed inset-0 z-[100] bg-gradient-to-br from-indigo-700 to-cyan-500 transition-transform duration-500 md:hidden ${menuOpen ? "pointer-events-auto translate-x-0" : "pointer-events-none translate-x-full"
@@ -233,8 +292,6 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-
-      <div className="h-[170px]"></div>
     </>
   );
 };

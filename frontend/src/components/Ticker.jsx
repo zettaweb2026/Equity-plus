@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { RefreshCw } from "lucide-react";
 
-const Ticker = () => {
+const Ticker = ({ className = "" }) => {
   const [stocks, setStocks] = useState([]);
   const [marketStatus, setMarketStatus] = useState("Market Closed");
   const [loading, setLoading] = useState(true);
@@ -96,7 +96,7 @@ const Ticker = () => {
 
   if (loading) {
     return (
-      <div className="fixed top-[106px] left-0 z-40 flex h-16 w-full items-center justify-center border-b border-slate-800 bg-slate-900 px-4 text-sm font-bold tracking-wider text-slate-400 select-none shadow-md">
+      <div className={`flex h-16 w-full items-center justify-center border-b border-slate-800 bg-slate-900 px-4 text-sm font-bold tracking-wider text-slate-400 select-none shadow-md ${className}`}>
         <RefreshCw className="mr-2 h-4 w-4 animate-spin text-teal-400" />
         LOADING INDIAN MARKET TICKER...
       </div>
@@ -105,14 +105,14 @@ const Ticker = () => {
 
   if (error && stocks.length === 0) {
     return (
-      <div className="fixed top-[106px] left-0 z-40 flex h-16 w-full items-center justify-center border-b border-slate-800 bg-slate-900 px-4 text-sm font-bold tracking-wider text-rose-500 select-none shadow-md">
+      <div className={`flex h-16 w-full items-center justify-center border-b border-slate-800 bg-slate-900 px-4 text-sm font-bold tracking-wider text-rose-500 select-none shadow-md ${className}`}>
         ⚠️ TICKER OFFLINE: {error}
       </div>
     );
   }
 
   return (
-    <div className="fixed top-[106px] left-0 z-40 flex h-16 w-full items-center border-b border-slate-800 bg-slate-900 text-slate-100 select-none shadow-md overflow-hidden">
+    <div className={`flex h-16 w-full items-center border-b border-slate-800 bg-slate-900 text-slate-100 select-none shadow-md overflow-hidden ${className}`}>
       {/* Dynamic Status Badge */}
       <div className={`z-50 flex h-full items-center gap-2 bg-gradient-to-r px-5 text-xs font-black tracking-widest uppercase shadow-xl ${getStatusBadgeStyle()}`}>
         {marketStatus === "Market Open" && (
