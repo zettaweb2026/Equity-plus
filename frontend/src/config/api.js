@@ -5,11 +5,12 @@ const isLocalHost = () => {
   return ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
 };
 
-const stripTrailingSlash = (value) => value.replace(/\/+$/, "");
+const stripSlashes = (value) => value.replace(/^\/+|\/+$/g, "");
+const stripTrailingSlash = (value) => value.trim().replace(/\/+$/, "");
 
 export const API_BASE_URL = stripTrailingSlash(
   import.meta.env.VITE_API_BASE_URL ||
     (isLocalHost() ? LOCAL_API_BASE_URL : window.location.origin)
 );
 
-export const apiUrl = (path) => `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+export const apiUrl = (path) => `${API_BASE_URL}/${stripSlashes(path)}`;

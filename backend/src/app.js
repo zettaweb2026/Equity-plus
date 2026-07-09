@@ -35,11 +35,14 @@ const isAllowedOrigin = (origin) => {
 
   const normalizedOrigin = normalizeOrigin(origin);
   const allowedOrigins = getAllowedOrigins();
+  const shouldAllowVercelPreviews =
+    process.env.ALLOW_VERCEL_PREVIEWS === 'true' ||
+    (process.env.VERCEL === '1' && process.env.ALLOW_VERCEL_PREVIEWS !== 'false');
 
   if (allowedOrigins.has(normalizedOrigin)) return true;
   if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(normalizedOrigin)) return true;
 
-  return process.env.ALLOW_VERCEL_PREVIEWS === 'true' &&
+  return shouldAllowVercelPreviews &&
     /^https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(normalizedOrigin);
 };
 
