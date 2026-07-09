@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { RefreshCw } from "lucide-react";
+import { apiUrl } from "../config/api";
 
 const Ticker = ({ className = "" }) => {
   const [stocks, setStocks] = useState([]);
@@ -11,8 +12,7 @@ const Ticker = ({ className = "" }) => {
 
   const fetchTickerData = async () => {
     try {
-      const host = import.meta.env.VITE_API_BASE_URL;
-      const response = await fetch(`${host}/api/stocks/ticker`);
+      const response = await fetch(apiUrl("/api/stocks/ticker"));
       if (!response.ok) {
         throw new Error("Failed to fetch market data");
       }

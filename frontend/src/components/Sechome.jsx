@@ -2,6 +2,7 @@ import { AiFillBank, AiFillGold } from "react-icons/ai";
 import { GoGraph } from "react-icons/go";
 import { IoLogoUsd } from "react-icons/io";
 import { useCallback, useEffect, useState } from "react";
+import { apiUrl } from "../config/api";
 
 const Widget = ({ icon, title, value, sub }) => (
   <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -37,8 +38,7 @@ const Sechome = () => {
     setLoading(true);
     setError(null);
     try {
-      const host = import.meta.env.VITE_API_BASE_URL;
-      const resp = await fetch(`${host}/api/market`);
+      const resp = await fetch(apiUrl("/api/market"));
       if (!resp.ok) throw new Error('Network response not ok');
       const json = await resp.json();
       if (json.success) setData(json.data);
