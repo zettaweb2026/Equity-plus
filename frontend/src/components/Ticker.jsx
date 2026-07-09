@@ -11,7 +11,7 @@ const Ticker = ({ className = "" }) => {
 
   const fetchTickerData = async () => {
     try {
-      const host = `${window.location.protocol}//${window.location.hostname}:4000`;
+      const host = import.meta.env.VITE_API_BASE_URL;
       const response = await fetch(`${host}/api/stocks/ticker`);
       if (!response.ok) {
         throw new Error("Failed to fetch market data");
