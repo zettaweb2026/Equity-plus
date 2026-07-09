@@ -1,5 +1,5 @@
 import Home from "./pages/Home"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route , useLocation } from "react-router-dom"
 import Navbar from "./shared/Navbar"
 import About from "./pages/About"
 import Calculators from "./pages/Calculators"
@@ -8,11 +8,13 @@ import Contact from "./pages/Contact"
 import Services from "./pages/Services"
 import Sign from "./pages/Sign"
 import Footer from "./shared/Footer"
+import Admin from "./dashboard/Admin"
 function App() {
-
+const location = useLocation();
+  const layouthide = location.pathname === "/admin";
   return (
     <>
-    <Navbar />
+    {!layouthide && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
          <Route path="/about" element={<About />} />
@@ -21,8 +23,9 @@ function App() {
          <Route path="/contact" element={<Contact />} />
          <Route path="/services" element={<Services />} />
          <Route path="/sign" element={<Sign />} />
+         <Route path="/admin" element={<Admin />} />
       </Routes>
-    <Footer />
+   {!layouthide && <Footer />}
     </>
   )
 }

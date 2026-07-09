@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import FAQ from "../components/FAQ";
 import Fourhome from "../components/Fourhome";
 import Herohome from "../components/Herohome";
@@ -7,10 +8,13 @@ import Thirhome from "../components/Thirhome";
 const Home = () => {
   return (
     <div className="w-full overflow-x-hidden">
-      <section className="px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
+      
+      <section className="flex justify-center px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
         <Herohome />
       </section>
-
+<NavLink to="/admin" className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition-colors duration-300">
+        ADMIN
+      </NavLink>
       <section className="px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
         <h1 className="my-6 text-center text-2xl font-semibold text-sky-700 sm:text-3xl lg:text-4xl">
           Today's Market Review
