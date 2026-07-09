@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import FAQ from "../components/FAQ";
 import Fourhome from "../components/Fourhome";
 import Herohome from "../components/Herohome";
-import Sechome from "../components/Sechome";
+// import Sechome from "../components/Sechome";
 import Thirhome from "../components/Thirhome";
 
 const Home = () => {

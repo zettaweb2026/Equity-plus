@@ -14,14 +14,15 @@ import {
 // Indian currency standard formatting
 const formatIndianCurrency = (num) => {
   const rounded = Math.round(num);
-  const str = rounded.toString();
-  const lastThree = str.substring(str.length - 3);
-  const otherNumbers = str.substring(0, str.length - 3);
+  const isNegative = rounded < 0;
+  const absStr = Math.abs(rounded).toString();
+  const lastThree = absStr.substring(absStr.length - 3);
+  const otherNumbers = absStr.substring(0, absStr.length - 3);
   if (otherNumbers !== '') {
     const formattedOthers = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
-    return `₹ ${formattedOthers},${lastThree}`;
+    return `${isNegative ? '-' : ''}₹ ${formattedOthers},${lastThree}`;
   }
-  return `₹ ${lastThree}`;
+  return `${isNegative ? '-' : ''}₹ ${lastThree}`;
 };
 
 // Formatter for scales (e.g. 50L, 1Cr)
@@ -154,17 +155,24 @@ const CalculatorPage = () => {
   const [expandedTable, setExpandedTable] = useState(false);
 
   const handleInputChange = (id, val) => {
-    const parsed = parseFloat(val);
-    if (!isNaN(parsed)) {
-      setInputs((prev) => ({
-        ...prev,
-        [`${config.title}_${id}`]: parsed,
-      }));
-    }
+    // Strip everything except digits and at most one decimal point
+    const cleanVal = String(val).replace(/[^0-9.]/g, '');
+    const parts = cleanVal.split('.');
+    const cleaned = parts[0] + (parts.length > 1 ? '.' + parts.slice(1).join('') : '');
+
+    setInputs((prev) => ({
+      ...prev,
+      [`${config.title}_${id}`]: cleaned,
+    }));
   };
 
   const getInputValue = useCallback((id) => {
-    return inputs[`${config.title}_${id}`] ?? config.fields.find((f) => f.id === id).default;
+    const val = inputs[`${config.title}_${id}`];
+    if (val === undefined || val === "") {
+      return 0;
+    }
+    const parsed = parseFloat(val);
+    return isNaN(parsed) ? 0 : parsed;
   }, [inputs, config]);
 
   // Perform Calculations based on calculator type
@@ -174,10 +182,12 @@ const CalculatorPage = () => {
 
     if (activeType === "sip") {
       const monthly = getInputValue("monthly");
-      const monthlyRate = rate / 12 / 100;
+      const monthlyRate = Math.pow(1 + rate / 100, 1 / 12) - 1;
       const totalMonths = tenure * 12;
       
-      const totalValue = monthly * ((Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate) * (1 + monthlyRate);
+      const totalValue = monthlyRate === 0 
+        ? monthly * totalMonths 
+        : monthly * ((Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate) * (1 + monthlyRate);
       const invested = monthly * totalMonths;
       const gain = Math.max(0, totalValue - invested);
 
@@ -185,7 +195,9 @@ const CalculatorPage = () => {
       for (let y = 1; y <= tenure; y++) {
         const mCount = y * 12;
         const yearInvested = monthly * mCount;
-        const yearVal = monthly * ((Math.pow(1 + monthlyRate, mCount) - 1) / monthlyRate) * (1 + monthlyRate);
+        const yearVal = monthlyRate === 0 
+          ? monthly * mCount 
+          : monthly * ((Math.pow(1 + monthlyRate, mCount) - 1) / monthlyRate) * (1 + monthlyRate);
         yearlyData.push({
           year: y,
           invested: yearInvested,
@@ -221,19 +233,19 @@ const CalculatorPage = () => {
     if (activeType === "step-up-sip") {
       const P = getInputValue("monthly");   // Initial monthly SIP (₹)
       const g = getInputValue("stepup");    // Annual step-up rate (%)
-      const r = rate / 12 / 100;           // Monthly rate of return
+      const r = Math.pow(1 + rate / 100, 1 / 12) - 1; // Effective monthly rate of return (matches Groww)
       const n = tenure * 12;               // Total number of months
       const yearlyData = [];
 
       /**
-       * Industry-Standard Tranche Method (HDFC Fund / Zerodha / Bajaj AMC)
+       * Industry-Standard Tranche Method (HDFC Fund / Zerodha / Bajaj AMC / Groww)
        *
        * FV = Σ(m=1 to n) [ SIP_m × (1 + r)^(n - m + 1) ]
        *
        * Where:
        *   SIP_m = P × (1 + g/100)^floor((m-1)/12)
        *         → SIP amount for month m, stepped up every 12 months
-       *   r     = monthly rate of return (annual rate / 12 / 100)
+       *   r     = monthly rate of return (effective rate)
        *   n     = total months (years × 12)
        *   m     = month index (1-based)
        */
@@ -280,7 +292,9 @@ const CalculatorPage = () => {
       const monthlyRate = rate / 12 / 100;
       const totalMonths = tenure * 12;
       
-      const emi = loan * monthlyRate * Math.pow(1 + monthlyRate, totalMonths) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
+      const emi = monthlyRate === 0 
+        ? (totalMonths > 0 ? loan / totalMonths : 0)
+        : loan * monthlyRate * Math.pow(1 + monthlyRate, totalMonths) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
       const totalPayable = emi * totalMonths;
       const totalInterest = Math.max(0, totalPayable - loan);
 
@@ -315,36 +329,32 @@ const CalculatorPage = () => {
     if (activeType === "swp") {
       const investment = getInputValue("totalInvest");
       const withdrawal = getInputValue("withdrawal");
-      const monthlyRate = rate / 12 / 100;
+      const monthlyRate = Math.pow(1 + rate / 100, 1 / 12) - 1;
       const months = tenure * 12;
       const yearlyData = [];
 
       /**
-       * SWP Formula:
+       * SWP Formula (Industry Standard matching Groww):
        *   Each month:
-       *     balance = balance × (1 + monthlyRate)   ← monthly growth first
-       *     balance = balance - withdrawal           ← then deduct withdrawal
-       *
-       *   totalWithdrawal = withdrawal × months (fixed monthly payout)
+       *     balance = balance × (1 + monthlyRate)   ← monthly interest compounding first
+       *     balance = balance - withdrawal           ← then deduct withdrawal (can go negative)
        */
       let balance = investment;
 
       for (let y = 1; y <= tenure; y++) {
         for (let m = 1; m <= 12; m++) {
-          balance = balance * (1 + monthlyRate); // monthly growth
-          balance = balance - withdrawal;         // monthly withdrawal
+          balance = balance * (1 + monthlyRate) - withdrawal;
         }
-        const safeBalance = Math.max(0, Math.round(balance));
         yearlyData.push({
           year: y,
           invested: investment,
-          value: safeBalance,
+          value: Math.round(balance),
           gain: withdrawal * (y * 12), // cumulative withdrawals so far
         });
       }
 
       const totalWithdrawal = withdrawal * months;
-      const finalBalance = Math.max(0, Math.round(balance));
+      const finalBalance = Math.round(balance);
 
       return {
         invested: investment,
@@ -357,10 +367,37 @@ const CalculatorPage = () => {
     return { invested: 0, gain: 0, total: 0, yearlyData: [] };
   }, [activeType, getInputValue]);
 
+  // Comparison calculators for SIP vs Lumpsum
+  const lumpsumComparison = useMemo(() => {
+    if (activeType !== "sip") return null;
+    const P = getInputValue("monthly");
+    const rateVal = getInputValue("rate");
+    const tenureVal = getInputValue("tenure");
+    const totalInvest = P * tenureVal * 12;
+    return Math.round(totalInvest * Math.pow(1 + rateVal / 100, tenureVal));
+  }, [activeType, getInputValue]);
+
+  const sipComparison = useMemo(() => {
+    if (activeType !== "lumpsum") return null;
+    const totalInvest = getInputValue("totalInvest");
+    const rateVal = getInputValue("rate");
+    const tenureVal = getInputValue("tenure");
+    
+    const monthly = tenureVal > 0 ? totalInvest / (tenureVal * 12) : 0;
+    const monthlyRate = Math.pow(1 + rateVal / 100, 1 / 12) - 1;
+    const totalMonths = tenureVal * 12;
+    
+    const totalValue = monthlyRate === 0 
+      ? monthly * totalMonths 
+      : monthly * ((Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate) * (1 + monthlyRate);
+    return Math.round(totalValue);
+  }, [activeType, getInputValue]);
+
   // Donut chart calculations
   const donutChart = useMemo(() => {
-    const { invested, gain, total } = results;
-    if (!total || total <= 0) return { stroke1: 0, stroke2: 0, radius: 70, circ: 2 * Math.PI * 70 };
+    const { invested, gain } = results;
+    const sum = invested + gain;
+    if (!sum || sum <= 0) return { stroke1: 0, stroke2: 0, radius: 70, circ: 2 * Math.PI * 70, p1: 0, p2: 0 };
     
     const radius = 70;
     const circ = 2 * Math.PI * radius;
@@ -369,7 +406,6 @@ const CalculatorPage = () => {
     // EMI: Principal (invested) vs Interest (gain)
     // SWP: Total Invested vs Cumulative Withdrawal. However, we display remaining balance as the 'total' value.
     // So let's base slices on proportions of: Invested (Original/Invested) and Gain (Wealth gain / Interest / Withdrawal)
-    const sum = invested + gain;
     const p1 = (invested / sum) * 100;
     const p2 = (gain / sum) * 100;
 
@@ -397,7 +433,7 @@ const CalculatorPage = () => {
     });
 
     const getX = (i, len) => pad + (i / (len - 1)) * cW;
-    const getY = (v) => (pad + cH) - (v / maxVal) * cH;
+    const getY = (v) => (pad + cH) - (Math.max(0, v) / maxVal) * cH;
 
     let valPath = "";
     let invPath = "";
@@ -460,7 +496,9 @@ const CalculatorPage = () => {
                 Available Calculators
               </h4>
               <nav className="space-y-1.5">
-                {Object.entries(calculatorConfigs).map(([key, calc]) => {
+                {Object.entries(calculatorConfigs)
+                  .filter(([key]) => key !== "lumpsum")
+                  .map(([key, calc]) => {
                   const NavIcon = calc.icon;
                   const isActive = activeType === key;
                   return (
@@ -512,9 +550,37 @@ const CalculatorPage = () => {
                   Adjust Parameters
                 </h3>
 
+                {/* Tab Switcher for SIP/Lumpsum */}
+                {(activeType === "sip" || activeType === "lumpsum") && (
+                  <div className="flex bg-slate-100 p-1 rounded-xl gap-1">
+                    <Link
+                      to="/calculator/sip"
+                      className={`flex-1 text-center py-2 rounded-lg text-sm font-bold transition-all ${
+                        activeType === "sip"
+                          ? "bg-white text-indigo-600 shadow-sm"
+                          : "text-slate-500 hover:text-slate-800"
+                      }`}
+                    >
+                      SIP
+                    </Link>
+                    <Link
+                      to="/calculator/lumpsum"
+                      className={`flex-1 text-center py-2 rounded-lg text-sm font-bold transition-all ${
+                        activeType === "lumpsum"
+                          ? "bg-white text-indigo-600 shadow-sm"
+                          : "text-slate-500 hover:text-slate-800"
+                      }`}
+                    >
+                      Lumpsum
+                    </Link>
+                  </div>
+                )}
+
                 <div className="space-y-8">
                   {config.fields.map((field) => {
-                    const currentVal = getInputValue(field.id);
+                    const rawVal = inputs[`${config.title}_${field.id}`];
+                    const currentVal = rawVal !== undefined ? rawVal : field.default;
+                    const numericVal = getInputValue(field.id);
                     return (
                       <div key={field.id} className="space-y-3">
                         <div className="flex items-center justify-between">
@@ -523,12 +589,10 @@ const CalculatorPage = () => {
                           </label>
                           <div className="relative rounded-lg shadow-sm w-36">
                             <input
-                              type="number"
+                              type="text"
+                              inputMode="decimal"
                               className="w-full text-right font-bold text-slate-900 border border-slate-200 rounded-lg py-1.5 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm bg-slate-50/50"
                               value={currentVal}
-                              min={field.min}
-                              max={field.max}
-                              step={field.step}
                               onChange={(e) => handleInputChange(field.id, e.target.value)}
                             />
                             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400">
@@ -545,7 +609,7 @@ const CalculatorPage = () => {
                             max={field.max}
                             step={field.step}
                             className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600 focus:outline-none"
-                            value={currentVal}
+                            value={currentVal === "" ? field.min : numericVal}
                             onChange={(e) => handleInputChange(field.id, e.target.value)}
                           />
                           <div className="flex justify-between text-xxs font-bold text-slate-400 mt-1">
@@ -589,6 +653,19 @@ const CalculatorPage = () => {
                       </div>
                     )}
                   </div>
+
+                  {activeType === "sip" && lumpsumComparison !== null && (
+                    <div className="mt-3 text-xs font-bold text-slate-500 bg-indigo-50 text-indigo-700 px-3.5 py-2.5 rounded-xl border border-indigo-100 flex items-center justify-between">
+                      <span>As Lumpsum Investment:</span>
+                      <span className="font-extrabold">{formatIndianCurrency(lumpsumComparison)}</span>
+                    </div>
+                  )}
+                  {activeType === "lumpsum" && sipComparison !== null && (
+                    <div className="mt-3 text-xs font-bold text-slate-500 bg-slate-50 text-slate-700 px-3.5 py-2.5 rounded-xl border border-slate-150 flex items-center justify-between">
+                      <span>As Monthly SIP:</span>
+                      <span className="font-extrabold">{formatIndianCurrency(sipComparison)}</span>
+                    </div>
+                  )}
 
                   {/* Summary Breakdowns */}
                   <div className="space-y-4 pt-2">
@@ -789,7 +866,11 @@ const CalculatorPage = () => {
                 <div className="flex items-center gap-2">
                   <span className="h-3 w-5 bg-indigo-500 rounded" />
                   <span className="text-slate-500">
-                    {activeType === "emi" ? "Cumulative Principal Paid" : "Total Wealth Value"}
+                    {activeType === "emi" 
+                      ? "Cumulative Principal Paid" 
+                      : activeType === "swp" 
+                        ? "Remaining Balance" 
+                        : "Total Wealth Value"}
                   </span>
                 </div>
               </div>
@@ -811,18 +892,26 @@ const CalculatorPage = () => {
                   expandedTable ? "max-h-[500px] mt-6 border border-slate-100 rounded-xl" : "max-h-0"
                 }`}
               >
-                <table className="min-w-full divide-y divide-slate-100 text-sm text-left">
+                 <table className="min-w-full divide-y divide-slate-100 text-sm text-left">
                   <thead className="bg-slate-50 font-semibold text-slate-500">
                     <tr>
                       <th className="px-6 py-3.5">Year</th>
                       <th className="px-6 py-3.5">
-                        {activeType === "emi" ? "Principal Balance Outstanding" : "Cumulative Invested"}
+                        {activeType === "emi" ? "Principal Balance Outstanding" : "Total Investment"}
                       </th>
                       <th className="px-6 py-3.5">
-                        {activeType === "emi" ? "Cumulative Interest Paid" : "Wealth Earned"}
+                        {activeType === "emi" 
+                          ? "Cumulative Interest Paid" 
+                          : activeType === "swp" 
+                            ? "Cumulative Withdrawals" 
+                            : "Wealth Earned"}
                       </th>
                       <th className="px-6 py-3.5">
-                        {activeType === "emi" ? "Cumulative Principal Paid" : "Total Estimated Value"}
+                        {activeType === "emi" 
+                          ? "Cumulative Principal Paid" 
+                          : activeType === "swp" 
+                            ? "Remaining Balance" 
+                            : "Total Estimated Value"}
                       </th>
                     </tr>
                   </thead>

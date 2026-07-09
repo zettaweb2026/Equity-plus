@@ -1,63 +1,92 @@
 import { FaPhoneAlt, FaCalculator } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-const Twoabout = () => {
-    return (
-        <div className="w-full overflow-x-hidden">
-        <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
-            <h1 className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm text-center text-lg font-semibold sm:text-xl">Easy-to-understand market insights</h1>
-            <h1 className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm text-center text-lg font-semibold sm:text-xl">Powerful financial calculators</h1>
-            <h1 className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm text-center text-lg font-semibold sm:text-xl">Beginner-friendly learning resources</h1>
-            <h1 className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm text-center text-lg font-semibold sm:text-xl">Reliable and accurate information</h1>
-        </div>
-        <section className="px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
-        <h1 className="my-6 text-center text-2xl font-bold  sm:text-2xl lg:text-3xl">
-           Why Choose Us
-        </h1>
-         <div className="w-full text-center lg:text-left">
-          <p className="text-center font-semibold leading-7 text-gray-800 sm:text-lg">
-            Our team is comprised of people with different kinds of finance experience, but we all have this in common--a commitment to ethics and integrity. We’re all fully licensed and credentialed. And you can count on unbiased recommendations and impartial guidance.
-          </p>
-        </div>
-      </section>
-        <section className="px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
-        <h1 className="my-6 text-center text-2xl font-bold  sm:text-2xl lg:text-3xl">
-           Our vision
-        </h1>
-         <div className="w-full text-center lg:text-left">
-          <p className="text-center font-semibold leading-7 text-gray-800 sm:text-lg">
-            We envision a future where every individual has the confidence and knowledge to make smarter financial decisions. Equity Plus aims to become a trusted companion for every investor.
-          </p>
-        </div>
-      </section>
-        <section className="px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
-        <h1 className="my-6 text-center text-2xl font-bold  sm:text-2xl lg:text-3xl">
-          Start Your Investment Journey Today
-        </h1>
-          <p className="text-center font-semibold leading-7 text-gray-800 sm:text-lg">
-           Explore our financial tools, learn about the stock market, and take the first step toward achieving your financial goals.
-          </p>
-          
-      <div className="flex flex-col mt-2 items-center gap-4 md:flex-row md:justify-center md:gap-6">
-  <NavLink
-    to="/contact"
-    className="flex items-center gap-2 rounded-md bg-white px-4 py-2 text-base font-bold text-black transition duration-300 hover:cursor-pointer hover:bg-black hover:text-emerald-400 sm:text-lg"
-  >
-    <FaPhoneAlt />
-    Contact Us
-  </NavLink>
 
-  <NavLink
-    to="/calculators"
-    className="flex items-center gap-2 rounded-md bg-white px-4 py-2 text-base font-bold text-black transition duration-300 hover:cursor-pointer hover:bg-black hover:text-emerald-400 sm:text-lg"
-  >
-    <FaCalculator />
-    Financial Calculators
-  </NavLink>
-</div>
-       
-      </section>
+const features = [
+  {
+    title: "Market insights",
+    description: "Clear, practical updates that make financial information easier to interpret.",
+  },
+  {
+    title: "Financial calculators",
+    description: "Powerful tools that help you estimate goals, returns, and financial planning steps.",
+  },
+  {
+    title: "Learning resources",
+    description: "Beginner-friendly guidance designed to build confidence as you grow.",
+  },
+  {
+    title: "Reliable information",
+    description: "Thoughtful, accurate content you can use as a dependable reference point.",
+  },
+];
+
+const Twoabout = () => {
+  return (
+    <div className="w-full overflow-x-hidden">
+      <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        {features.map((item) => (
+          <div
+            key={item.title}
+            className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md"
+          >
+            <div className="mx-auto mb-3 h-10 w-10 rounded-full bg-emerald-50" />
+            <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
+            <p className="mt-2 text-sm leading-7 text-slate-600">{item.description}</p>
+          </div>
+        ))}
+      </div>
+
+      <section className="mt-10 rounded-3xl border border-slate-200 bg-white p-8 shadow-[0_20px_60px_-28px_rgba(15,23,42,0.18)] sm:p-10">
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-600">
+              Why Choose Us
+            </p>
+            <h2 className="mt-3 text-2xl font-semibold text-slate-900 sm:text-3xl">
+              A professional partner for your next financial step.
+            </h2>
+            <p className="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
+              Our team brings together different backgrounds in finance, but we share one commitment: ethical guidance, transparent advice, and a strong focus on helping you make informed choices.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+            <h3 className="text-xl font-semibold text-slate-900">Our vision</h3>
+            <p className="mt-3 text-base leading-8 text-slate-600">
+              We envision a future where more people feel confident and capable in their financial decisions. Equity Plus aims to become a trusted companion for every investor.
+            </p>
+          </div>
         </div>
-    );
+      </section>
+
+      <section className="mt-8 rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-emerald-50 p-8 text-center shadow-sm sm:p-10">
+        <h2 className="text-2xl font-semibold text-slate-900 sm:text-3xl">
+          Start your investment journey today.
+        </h2>
+        <p className="mx-auto mt-3 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
+          Explore financial tools, learn about the stock market, and take your first confident step towards your goals.
+        </p>
+
+        <div className="mt-6 flex flex-col items-center justify-center gap-4 md:flex-row md:gap-6">
+          <NavLink
+            to="/contact"
+            className="flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-base font-semibold text-slate-900 transition duration-300 hover:bg-slate-900 hover:text-emerald-400"
+          >
+            <FaPhoneAlt />
+            Contact Us
+          </NavLink>
+
+          <NavLink
+            to="/calculators"
+            className="flex items-center justify-center gap-2 rounded-full border border-emerald-200 bg-emerald-600 px-5 py-3 text-base font-semibold text-white transition duration-300 hover:bg-emerald-700"
+          >
+            <FaCalculator />
+            Financial Calculators
+          </NavLink>
+        </div>
+      </section>
+    </div>
+  );
 };
 
 export default Twoabout;
