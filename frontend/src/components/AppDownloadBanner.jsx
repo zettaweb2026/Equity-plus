@@ -1,4 +1,4 @@
-import { Smartphone, QrCode, Star, Download } from "lucide-react";
+import { QrCode, Star, Download } from "lucide-react";
 import appMockup from "../assets/images/app_mockup_3d.png";
 import { NavLink } from "react-router-dom";
 
@@ -15,9 +15,6 @@ const AppDownloadBanner = () => {
             
             {/* Left Content */}
             <div className="lg:col-span-7 space-y-6">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-extrabold uppercase tracking-widest">
-                <Smartphone className="h-4 w-4" /> Trade Anywhere, Anytime
-              </span>
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
                 Download the <span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Equity Plus Mobile App</span>

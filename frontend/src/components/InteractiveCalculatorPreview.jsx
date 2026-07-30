@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Calculator, TrendingUp, ArrowRight } from "lucide-react";
+import { TrendingUp, ArrowRight } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const InteractiveCalculatorPreview = () => {
@@ -33,29 +33,29 @@ const InteractiveCalculatorPreview = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <span className="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-xs font-extrabold uppercase tracking-widest">
-            <Calculator className="h-4 w-4" /> Live Interactive Wealth Simulator
-          </span>
           <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
-            See how your money grows with <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Power of Compounding</span>
+            See how your money grows with <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Compounding</span>
           </h2>
           <p className="mt-4 text-slate-400 text-base sm:text-lg">
-            Drag the sliders below to calculate your estimated wealth returns for long-term Systematic Investment Plans (SIP).
+            Use this simple tool to see how investing a small amount every month can build massive wealth over time.
           </p>
         </div>
 
         {/* Calculator Widget Box */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-950 p-6 sm:p-10 shadow-2xl backdrop-blur-xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-[#111827] to-[#0a0f16] p-8 sm:p-12 shadow-2xl ring-1 ring-white/5">
+          {/* Ambient Glow */}
+          <div className="absolute top-1/2 left-1/4 h-[400px] w-[400px] -translate-y-1/2 -translate-x-1/2 rounded-full bg-emerald-500/10 blur-[120px] pointer-events-none" />
+          
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Sliders Controls Column */}
-            <div className="lg:col-span-7 space-y-8">
+            <div className="lg:col-span-7 space-y-10">
               
               {/* Slider 1: Monthly Investment */}
-              <div>
-                <div className="flex justify-between items-center mb-3">
-                  <label className="text-sm font-bold text-slate-300">Monthly Investment Amount</label>
-                  <span className="text-lg font-black text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-lg border border-emerald-500/20">
+              <div className="group">
+                <div className="flex justify-between items-end mb-4">
+                  <label className="text-sm font-semibold text-slate-400 group-hover:text-slate-300 transition-colors">Monthly Investment</label>
+                  <span className="text-xl font-black text-emerald-400 tracking-tight bg-emerald-500/10 px-4 py-1.5 rounded-xl border border-emerald-500/20 shadow-inner">
                     {formatCurrency(monthlyInvest)}
                   </span>
                 </div>
@@ -66,20 +66,19 @@ const InteractiveCalculatorPreview = () => {
                   step="500"
                   value={monthlyInvest}
                   onChange={(e) => setMonthlyInvest(Number(e.target.value))}
-                  className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                  className="w-full h-2 bg-slate-800/80 rounded-full appearance-none cursor-pointer accent-emerald-500 hover:bg-slate-700 transition-colors"
                 />
-                <div className="flex justify-between text-xs font-semibold text-slate-500 mt-2">
+                <div className="flex justify-between text-[11px] font-bold text-slate-500 mt-3 uppercase tracking-wider">
                   <span>₹500</span>
-                  <span>₹50,000</span>
-                  <span>₹1,000,000</span>
+                  <span>₹1,00,000</span>
                 </div>
               </div>
 
               {/* Slider 2: Expected Return Rate */}
-              <div>
-                <div className="flex justify-between items-center mb-3">
-                  <label className="text-sm font-bold text-slate-300">Expected Annual Return Rate (p.a.)</label>
-                  <span className="text-lg font-black text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
+              <div className="group">
+                <div className="flex justify-between items-end mb-4">
+                  <label className="text-sm font-semibold text-slate-400 group-hover:text-slate-300 transition-colors">Expected Return Rate (p.a.)</label>
+                  <span className="text-xl font-black text-emerald-400 tracking-tight bg-emerald-500/10 px-4 py-1.5 rounded-xl border border-emerald-500/20 shadow-inner">
                     {returnRate}%
                   </span>
                 </div>
@@ -90,20 +89,19 @@ const InteractiveCalculatorPreview = () => {
                   step="0.5"
                   value={returnRate}
                   onChange={(e) => setReturnRate(Number(e.target.value))}
-                  className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                  className="w-full h-2 bg-slate-800/80 rounded-full appearance-none cursor-pointer accent-emerald-500 hover:bg-slate-700 transition-colors"
                 />
-                <div className="flex justify-between text-xs font-semibold text-slate-500 mt-2">
+                <div className="flex justify-between text-[11px] font-bold text-slate-500 mt-3 uppercase tracking-wider">
                   <span>5%</span>
-                  <span>15%</span>
                   <span>25%</span>
                 </div>
               </div>
 
               {/* Slider 3: Time Horizon */}
-              <div>
-                <div className="flex justify-between items-center mb-3">
-                  <label className="text-sm font-bold text-slate-300">Investment Time Horizon</label>
-                  <span className="text-lg font-black text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-lg border border-cyan-500/20">
+              <div className="group">
+                <div className="flex justify-between items-end mb-4">
+                  <label className="text-sm font-semibold text-slate-400 group-hover:text-slate-300 transition-colors">Time Horizon</label>
+                  <span className="text-xl font-black text-emerald-400 tracking-tight bg-emerald-500/10 px-4 py-1.5 rounded-xl border border-emerald-500/20 shadow-inner">
                     {timeHorizon} Years
                   </span>
                 </div>
@@ -114,11 +112,10 @@ const InteractiveCalculatorPreview = () => {
                   step="1"
                   value={timeHorizon}
                   onChange={(e) => setTimeHorizon(Number(e.target.value))}
-                  className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+                  className="w-full h-2 bg-slate-800/80 rounded-full appearance-none cursor-pointer accent-emerald-500 hover:bg-slate-700 transition-colors"
                 />
-                <div className="flex justify-between text-xs font-semibold text-slate-500 mt-2">
+                <div className="flex justify-between text-[11px] font-bold text-slate-500 mt-3 uppercase tracking-wider">
                   <span>1 Yr</span>
-                  <span>15 Yrs</span>
                   <span>30 Yrs</span>
                 </div>
               </div>
@@ -126,7 +123,7 @@ const InteractiveCalculatorPreview = () => {
             </div>
 
             {/* Visual Breakdown Column */}
-            <div className="lg:col-span-5 bg-slate-900/90 rounded-2xl border border-slate-800 p-6 sm:p-8 space-y-6 flex flex-col justify-between">
+            <div className="lg:col-span-5 bg-gradient-to-b from-white/[0.04] to-transparent rounded-[2rem] border border-white/5 p-8 sm:p-10 space-y-8 flex flex-col justify-between shadow-2xl">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Target Maturity Breakdown</span>
                 
@@ -155,23 +152,23 @@ const InteractiveCalculatorPreview = () => {
                 </div>
 
                 {/* Stats Breakdown Grid */}
-                <div className="grid grid-cols-2 gap-4 mt-6">
-                  <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
-                    <div className="flex items-center gap-2 text-xs font-bold text-indigo-400">
-                      <span className="h-2.5 w-2.5 rounded-full bg-indigo-500" />
+                <div className="grid grid-cols-2 gap-4 mt-8">
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/5 shadow-inner">
+                    <div className="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                      <span className="h-2 w-2 rounded-full bg-slate-400 shadow-[0_0_8px_rgba(148,163,184,0.6)]" />
                       Total Invested
                     </div>
-                    <div className="text-lg font-black text-white mt-1">
+                    <div className="text-xl font-black text-white">
                       {formatCurrency(totalInvestment)}
                     </div>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
-                    <div className="flex items-center gap-2 text-xs font-bold text-emerald-400">
-                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-                      Estimated Growth
+                  <div className="p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 shadow-inner">
+                    <div className="flex items-center gap-2 text-[11px] font-bold text-emerald-400 uppercase tracking-wider mb-2">
+                      <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                      Est. Returns
                     </div>
-                    <div className="text-lg font-black text-emerald-400 mt-1">
+                    <div className="text-xl font-black text-emerald-400">
                       +{formatCurrency(estimatedReturns)}
                     </div>
                   </div>
@@ -179,13 +176,13 @@ const InteractiveCalculatorPreview = () => {
               </div>
 
               {/* Action Button */}
-              <div className="pt-2">
+              <div className="pt-4">
                 <NavLink
                   to="/calculators"
-                  className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-sm transition-all duration-300 shadow-lg shadow-indigo-600/25"
+                  className="w-full flex items-center justify-center gap-3 py-4 px-4 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-black text-sm transition-all duration-300 shadow-xl shadow-white/10 hover:shadow-2xl hover:scale-[1.02]"
                 >
                   <TrendingUp className="h-4 w-4" />
-                  <span>Access All 5+ Calculators</span>
+                  <span>Explore all calculators</span>
                   <ArrowRight className="h-4 w-4" />
                 </NavLink>
               </div>

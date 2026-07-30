@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { TrendingUp, TrendingDown, RefreshCw, BarChart2, Zap, Award } from "lucide-react";
+import { TrendingUp, TrendingDown, RefreshCw, BarChart2, Award } from "lucide-react";
 import { apiUrl } from "../config/api";
 import { NavLink } from "react-router-dom";
 
@@ -79,11 +79,8 @@ const Sechome = () => {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-widest">
-              <Zap className="h-3.5 w-3.5" /> Live NSE/BSE Market Pulse
-            </span>
             <h2 className="mt-3 text-3xl sm:text-4xl font-black text-white tracking-tight">
-              Real-Time Stock Market Highlights
+              Track what's moving the market today
             </h2>
           </div>
 
@@ -100,64 +97,64 @@ const Sechome = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           
           {/* NIFTY 50 */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 shadow-xl backdrop-blur-xl">
-            <div className="flex items-center justify-between text-xs font-bold text-slate-400 mb-2">
+          <div className="group rounded-[1.5rem] border border-white/5 bg-gradient-to-b from-white/[0.04] to-transparent p-5 shadow-2xl ring-1 ring-white/5 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1.5 hover:shadow-emerald-500/10 hover:ring-emerald-500/30">
+            <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">
               <span>NSE BENCHMARK</span>
-              <span className="text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20">INDEX</span>
+              <span className="text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-md border border-indigo-500/20 shadow-sm">INDEX</span>
             </div>
-            <div className="text-lg font-black text-white">NIFTY 50</div>
-            <div className="text-2xl font-black text-white mt-1">
+            <div className="text-base font-extrabold text-slate-300 tracking-tight">NIFTY 50</div>
+            <div className="text-3xl font-black text-white mt-1 tracking-tighter">
               {marketIndices?.NIFTY?.price ? formatPrice(marketIndices.NIFTY.price, "INR") : "24,250.20"}
             </div>
-            <div className="mt-2 flex items-center gap-1.5 text-xs font-extrabold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg w-fit">
+            <div className="mt-4 flex items-center gap-1.5 text-[11px] font-black tracking-wide text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-lg w-fit border border-emerald-500/20 shadow-inner">
               <TrendingUp className="h-3.5 w-3.5" />
               <span>{marketIndices?.NIFTY?.percent ? `+${marketIndices.NIFTY.percent}%` : "+0.45% ▲"}</span>
             </div>
           </div>
 
           {/* BANK NIFTY */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 shadow-xl backdrop-blur-xl">
-            <div className="flex items-center justify-between text-xs font-bold text-slate-400 mb-2">
+          <div className="group rounded-[1.5rem] border border-white/5 bg-gradient-to-b from-white/[0.04] to-transparent p-5 shadow-2xl ring-1 ring-white/5 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1.5 hover:shadow-indigo-500/10 hover:ring-indigo-500/30">
+            <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">
               <span>BANKING INDEX</span>
-              <span className="text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20">INDEX</span>
+              <span className="text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-md border border-indigo-500/20 shadow-sm">INDEX</span>
             </div>
-            <div className="text-lg font-black text-white">BANK NIFTY</div>
-            <div className="text-2xl font-black text-white mt-1">
+            <div className="text-base font-extrabold text-slate-300 tracking-tight">BANK NIFTY</div>
+            <div className="text-3xl font-black text-white mt-1 tracking-tighter">
               {marketIndices?.BANK_NIFTY?.price ? formatPrice(marketIndices.BANK_NIFTY.price, "INR") : "52,205.90"}
             </div>
-            <div className="mt-2 flex items-center gap-1.5 text-xs font-extrabold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg w-fit">
+            <div className="mt-4 flex items-center gap-1.5 text-[11px] font-black tracking-wide text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-lg w-fit border border-emerald-500/20 shadow-inner">
               <TrendingUp className="h-3.5 w-3.5" />
               <span>{marketIndices?.BANK_NIFTY?.percent ? `+${marketIndices.BANK_NIFTY.percent}%` : "+0.80% ▲"}</span>
             </div>
           </div>
 
           {/* GOLD */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 shadow-xl backdrop-blur-xl">
-            <div className="flex items-center justify-between text-xs font-bold text-slate-400 mb-2">
+          <div className="group rounded-[1.5rem] border border-white/5 bg-gradient-to-b from-white/[0.04] to-transparent p-5 shadow-2xl ring-1 ring-white/5 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1.5 hover:shadow-amber-500/10 hover:ring-amber-500/30">
+            <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">
               <span>COMMODITY</span>
-              <span className="text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">24K GOLD</span>
+              <span className="text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-md border border-amber-500/20 shadow-sm">24K GOLD</span>
             </div>
-            <div className="text-lg font-black text-white">GOLD (10g)</div>
-            <div className="text-2xl font-black text-white mt-1">
+            <div className="text-base font-extrabold text-slate-300 tracking-tight">GOLD (10g)</div>
+            <div className="text-3xl font-black text-white mt-1 tracking-tighter">
               {marketIndices?.GOLD?.price ? formatPrice(marketIndices.GOLD.price, "INR") : "₹73,450.00"}
             </div>
-            <div className="mt-2 flex items-center gap-1.5 text-xs font-extrabold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-lg w-fit">
+            <div className="mt-4 flex items-center gap-1.5 text-[11px] font-black tracking-wide text-amber-400 bg-amber-500/10 px-3 py-1.5 rounded-lg w-fit border border-amber-500/20 shadow-inner">
               <Award className="h-3.5 w-3.5" />
               <span>Bullion Safe</span>
             </div>
           </div>
 
           {/* USD / INR */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 shadow-xl backdrop-blur-xl">
-            <div className="flex items-center justify-between text-xs font-bold text-slate-400 mb-2">
+          <div className="group rounded-[1.5rem] border border-white/5 bg-gradient-to-b from-white/[0.04] to-transparent p-5 shadow-2xl ring-1 ring-white/5 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1.5 hover:shadow-cyan-500/10 hover:ring-cyan-500/30">
+            <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">
               <span>CURRENCY PAIR</span>
-              <span className="text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">FOREX</span>
+              <span className="text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-md border border-cyan-500/20 shadow-sm">FOREX</span>
             </div>
-            <div className="text-lg font-black text-white">USD / INR</div>
-            <div className="text-2xl font-black text-white mt-1">
+            <div className="text-base font-extrabold text-slate-300 tracking-tight">USD / INR</div>
+            <div className="text-3xl font-black text-white mt-1 tracking-tighter">
               {marketIndices?.USD_INR?.price ? `₹${marketIndices.USD_INR.price}` : "₹83.65"}
             </div>
-            <div className="mt-2 flex items-center gap-1.5 text-xs font-extrabold text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-lg w-fit">
+            <div className="mt-4 flex items-center gap-1.5 text-[11px] font-black tracking-wide text-cyan-400 bg-cyan-500/10 px-3 py-1.5 rounded-lg w-fit border border-cyan-500/20 shadow-inner">
               <BarChart2 className="h-3.5 w-3.5" />
               <span>Global Forex</span>
             </div>
@@ -166,17 +163,17 @@ const Sechome = () => {
         </div>
 
         {/* Tabbed Stock Directory (Groww Style) */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
+        <div className="rounded-[2rem] border border-white/5 bg-gradient-to-br from-[#111827] to-[#0a0f16] p-6 sm:p-10 shadow-2xl ring-1 ring-white/5">
           
           {/* Tabs header */}
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-5 mb-6">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 pb-6 mb-8">
+            <div className="flex items-center gap-3">
               <button
                 onClick={() => setActiveTab("gainers")}
-                className={`px-5 py-2.5 rounded-xl text-xs font-extrabold transition-all duration-300 ${
+                className={`px-6 py-3 rounded-xl text-sm font-black tracking-wide transition-all duration-300 ${
                   activeTab === "gainers"
-                    ? "bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20"
-                    : "bg-slate-800 text-slate-400 hover:text-white"
+                    ? "bg-white/10 text-white shadow-inner border border-white/10"
+                    : "bg-transparent text-slate-500 hover:text-slate-300 hover:bg-white/5"
                 }`}
               >
                 🚀 Top Gainers
@@ -184,10 +181,10 @@ const Sechome = () => {
 
               <button
                 onClick={() => setActiveTab("losers")}
-                className={`px-5 py-2.5 rounded-xl text-xs font-extrabold transition-all duration-300 ${
+                className={`px-6 py-3 rounded-xl text-sm font-black tracking-wide transition-all duration-300 ${
                   activeTab === "losers"
-                    ? "bg-rose-500 text-white shadow-lg shadow-rose-500/20"
-                    : "bg-slate-800 text-slate-400 hover:text-white"
+                    ? "bg-white/10 text-white shadow-inner border border-white/10"
+                    : "bg-transparent text-slate-500 hover:text-slate-300 hover:bg-white/5"
                 }`}
               >
                 📉 Top Losers
@@ -195,10 +192,10 @@ const Sechome = () => {
 
               <button
                 onClick={() => setActiveTab("active")}
-                className={`px-5 py-2.5 rounded-xl text-xs font-extrabold transition-all duration-300 ${
+                className={`px-6 py-3 rounded-xl text-sm font-black tracking-wide transition-all duration-300 ${
                   activeTab === "active"
-                    ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/20"
-                    : "bg-slate-800 text-slate-400 hover:text-white"
+                    ? "bg-white/10 text-white shadow-inner border border-white/10"
+                    : "bg-transparent text-slate-500 hover:text-slate-300 hover:bg-white/5"
                 }`}
               >
                 ⚡ Most Active Volume
@@ -221,31 +218,34 @@ const Sechome = () => {
                 return (
                   <div
                     key={stock.symbol}
-                    className="group rounded-2xl border border-slate-800/80 bg-slate-950 p-4 shadow-lg hover:border-emerald-500/40 transition-all duration-300 flex flex-col justify-between"
+                    className="group relative overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-5 shadow-lg hover:border-white/10 hover:bg-white/[0.04] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
                   >
-                    <div>
-                      <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
+                    {/* Hover Glow */}
+                    <div className={`absolute top-0 right-0 h-24 w-24 rounded-full blur-[40px] opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none ${isPositive ? 'bg-emerald-500' : 'bg-rose-500'}`} />
+
+                    <div className="relative z-10">
+                      <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
                         <span className="font-mono font-bold text-indigo-400">{stock.symbol.replace(".NS", "")}</span>
-                        <span className="text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">NSE</span>
+                        <span className="text-[10px] font-black tracking-widest uppercase bg-black/40 px-2 py-0.5 rounded border border-white/5">NSE</span>
                       </div>
-                      <div className="font-bold text-white text-sm line-clamp-1 group-hover:text-emerald-400 transition-colors">
+                      <div className="font-bold text-white text-sm line-clamp-1 group-hover:text-slate-200 transition-colors">
                         {stock.name}
                       </div>
                     </div>
 
-                    <div className="mt-4 flex items-end justify-between border-t border-slate-900 pt-3">
+                    <div className="relative z-10 mt-5 flex items-end justify-between border-t border-white/5 pt-4">
                       <div>
-                        <div className="text-xs text-slate-500 font-semibold">LTP Price</div>
-                        <div className="text-base font-black text-white">
+                        <div className="text-[10px] uppercase font-bold text-slate-500 mb-0.5 tracking-wider">LTP Price</div>
+                        <div className="text-lg font-black text-white tracking-tight">
                           {formatPrice(stock.price, stock.currency)}
                         </div>
                       </div>
 
                       <div
-                        className={`flex items-center gap-1 text-xs font-extrabold px-2.5 py-1 rounded-lg ${
+                        className={`flex items-center gap-1.5 text-xs font-black tracking-wide px-2.5 py-1.5 rounded-lg border shadow-inner ${
                           isPositive
-                            ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                            : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                            ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                            : "bg-rose-500/10 text-rose-400 border-rose-500/20"
                         }`}
                       >
                         {isPositive ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}

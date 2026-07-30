@@ -40,36 +40,35 @@ const Twoabout = () => {
           return (
             <div
               key={item.title}
-              className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6 text-center shadow-xl transition duration-300 hover:-translate-y-1 hover:border-emerald-500/40 backdrop-blur-xl"
+              className="group rounded-[2rem] border border-white/5 bg-gradient-to-b from-white/[0.04] to-transparent p-6 text-center shadow-2xl ring-1 ring-white/5 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-emerald-500/10 hover:ring-emerald-500/30 backdrop-blur-xl"
             >
-              <div className={`mx-auto mb-4 h-12 w-12 rounded-2xl border ${item.color} flex items-center justify-center`}>
+              <div className={`mx-auto mb-5 h-14 w-14 rounded-2xl border ${item.color} flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-500`}>
                 <Icon className="h-6 w-6" />
               </div>
-              <h3 className="text-lg font-bold text-white">{item.title}</h3>
-              <p className="mt-2 text-xs text-slate-400 leading-relaxed font-medium">{item.description}</p>
+              <h3 className="text-xl font-black text-white tracking-tight">{item.title}</h3>
+              <p className="mt-2 text-sm text-slate-400 leading-relaxed font-medium">{item.description}</p>
             </div>
           );
         })}
       </div>
 
       {/* Vision */}
-      <section className="rounded-3xl border border-slate-800 bg-slate-900/90 p-8 shadow-xl sm:p-10 backdrop-blur-xl">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+      <section className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-[#111827] to-[#0a0f16] p-8 sm:p-12 shadow-2xl ring-1 ring-white/5">
+        <div className="absolute -bottom-32 -right-32 h-[400px] w-[400px] rounded-full bg-emerald-500/10 blur-[120px] pointer-events-none" />
+        
+        <div className="relative z-10 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <span className="text-xs font-bold uppercase tracking-widest text-emerald-400">
-              Why Choose Equity Plus
-            </span>
-            <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">
+            <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl leading-tight tracking-tight">
               A professional partner for your next financial step.
             </h2>
-            <p className="mt-4 text-sm sm:text-base leading-relaxed text-slate-300">
+            <p className="mt-6 text-base sm:text-lg leading-relaxed text-slate-300 font-medium">
               Our team brings together diverse expertise in quantitative finance and technology. We are committed to ethical guidance, zero hidden charges, and transparent investment tools.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-950 p-6">
-            <h3 className="text-xl font-bold text-white">Our Vision</h3>
-            <p className="mt-3 text-sm leading-relaxed text-slate-400">
+          <div className="rounded-[2rem] border border-white/5 bg-black/40 p-8 shadow-inner hover:bg-white/5 transition-colors duration-300">
+            <h3 className="text-2xl font-bold text-white tracking-tight">Our Vision</h3>
+            <p className="mt-4 text-sm sm:text-base leading-relaxed text-slate-400 font-medium">
               We envision a future where every Indian investor has access to institutional-grade stock market intelligence and wealth compounding tools.
             </p>
           </div>
@@ -77,30 +76,34 @@ const Twoabout = () => {
       </section>
 
       {/* CTA Box */}
-      <section className="rounded-3xl border border-slate-800 bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950/60 p-8 text-center shadow-2xl sm:p-10">
-        <h2 className="text-2xl font-black text-white sm:text-3xl">
-          Start your investment journey today.
-        </h2>
-        <p className="mx-auto mt-3 max-w-2xl text-sm sm:text-base text-slate-300">
-          Explore financial tools, learn about stock markets, and take your first confident step towards financial independence.
-        </p>
+      <section className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-black p-10 text-center shadow-2xl sm:p-16 ring-1 ring-white/5">
+        <div className="absolute top-1/2 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/15 blur-[150px] pointer-events-none" />
+        
+        <div className="relative z-10">
+          <h2 className="text-3xl font-black text-white sm:text-5xl tracking-tighter">
+            Start your investment journey today.
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base sm:text-lg text-slate-400 font-medium">
+            Explore financial tools, learn about stock markets, and take your first confident step towards financial independence.
+          </p>
 
-        <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <NavLink
-            to="/contact"
-            className="flex items-center justify-center gap-2 rounded-full border border-slate-700 bg-slate-800 px-6 py-3 text-sm font-extrabold text-white transition duration-300 hover:bg-slate-700"
-          >
-            <FaPhoneAlt />
-            Contact Us
-          </NavLink>
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <NavLink
+              to="/contact"
+              className="flex items-center justify-center gap-3 rounded-xl border border-white/10 bg-white/5 px-8 py-4 text-sm font-black text-white transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02]"
+            >
+              <FaPhoneAlt />
+              Contact Us
+            </NavLink>
 
-          <NavLink
-            to="/calculators"
-            className="flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-6 py-3 text-sm font-extrabold text-slate-950 transition duration-300 hover:bg-emerald-400 shadow-lg shadow-emerald-500/20"
-          >
-            <FaCalculator />
-            Financial Calculators
-          </NavLink>
+            <NavLink
+              to="/calculators"
+              className="flex items-center justify-center gap-3 rounded-xl bg-emerald-500 px-8 py-4 text-sm font-black text-slate-950 transition-all duration-300 hover:bg-emerald-400 shadow-xl shadow-emerald-500/20 hover:scale-[1.02]"
+            >
+              <FaCalculator />
+              Financial Calculators
+            </NavLink>
+          </div>
         </div>
       </section>
     </div>

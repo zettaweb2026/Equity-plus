@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Sparkles, ArrowRight, TrendingUp } from "lucide-react";
+import { ArrowRight, TrendingUp } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const fundData = [
@@ -32,20 +32,52 @@ const fundData = [
   },
 ];
 
-const stockSymbolsList = [
-  { code: "RELIANCE", name: "Reliance", color: "from-blue-500/20 to-indigo-500/20 text-blue-400 border-blue-500/40" },
-  { code: "TCS", name: "TCS", color: "from-emerald-500/20 to-teal-500/20 text-emerald-400 border-emerald-500/40" },
-  { code: "HDFCBANK", name: "HDFC Bank", color: "from-cyan-500/20 to-blue-500/20 text-cyan-400 border-cyan-500/40" },
-  { code: "INFY", name: "Infosys", color: "from-purple-500/20 to-indigo-500/20 text-purple-400 border-purple-500/40" },
-  { code: "ICICIBANK", name: "ICICI Bank", color: "from-amber-500/20 to-orange-500/20 text-amber-400 border-amber-500/40" },
-  { code: "TATAMOTORS", name: "Tata Motors", color: "from-teal-500/20 to-emerald-500/20 text-teal-400 border-teal-500/40" },
-  { code: "SBIN", name: "SBI Bank", color: "from-sky-500/20 to-blue-500/20 text-sky-400 border-sky-500/40" },
-  { code: "ITC", name: "ITC Ltd", color: "from-green-500/20 to-emerald-500/20 text-green-400 border-green-500/40" },
-  { code: "LT", name: "Larsen & T", color: "from-indigo-500/20 to-purple-500/20 text-indigo-400 border-indigo-500/40" },
-  { code: "WIPRO", name: "Wipro", color: "from-pink-500/20 to-rose-500/20 text-pink-400 border-pink-500/40" },
-  { code: "BHARTIARTL", name: "Airtel", color: "from-red-500/20 to-orange-500/20 text-red-400 border-red-500/40" },
-  { code: "BAJFINANCE", name: "Bajaj Fin", color: "from-yellow-500/20 to-amber-500/20 text-yellow-400 border-yellow-500/40" },
+const colors = [
+  "from-blue-500/20 to-indigo-500/20 text-blue-400 border-blue-500/40",
+  "from-emerald-500/20 to-teal-500/20 text-emerald-400 border-emerald-500/40",
+  "from-cyan-500/20 to-blue-500/20 text-cyan-400 border-cyan-500/40",
+  "from-purple-500/20 to-indigo-500/20 text-purple-400 border-purple-500/40",
+  "from-amber-500/20 to-orange-500/20 text-amber-400 border-amber-500/40",
+  "from-teal-500/20 to-emerald-500/20 text-teal-400 border-teal-500/40",
+  "from-sky-500/20 to-blue-500/20 text-sky-400 border-sky-500/40",
+  "from-green-500/20 to-emerald-500/20 text-green-400 border-green-500/40",
+  "from-indigo-500/20 to-purple-500/20 text-indigo-400 border-indigo-500/40",
+  "from-pink-500/20 to-rose-500/20 text-pink-400 border-pink-500/40",
+  "from-red-500/20 to-orange-500/20 text-red-400 border-red-500/40",
+  "from-yellow-500/20 to-amber-500/20 text-yellow-400 border-yellow-500/40"
 ];
+
+const indianStocks = [
+  "RELIANCE", "TCS", "HDFCBANK", "INFY", "ICICIBANK", "TATAMOTORS", "SBIN", "ITC",
+  "LT", "WIPRO", "BHARTIARTL", "BAJFINANCE", "ASIANPAINT", "HCLTECH", "MARUTI",
+  "SUNPHARMA", "ULTRACEMCO", "KOTAKBANK", "TITAN", "NTPC", "TATACONSUM", "M&M",
+  "POWERGRID", "ONGC", "JSWSTEEL", "TATASTEEL", "HINDUNILVR", "BAJAJFINSV", "ADANIENT",
+  "ADANIPORTS", "GRASIM", "TECHM", "DIVISLAB", "HDFCLIFE", "SBILIFE", "APOLLOHOSP",
+  "HINDALCO", "COALINDIA", "EICHERMOT", "BRITANNIA", "CIPLA", "INDUSINDBK", "BAJAJ-AUTO",
+  "DRREDDY", "NESTLEIND", "BPCL", "HEROMOTOCO", "UPL", "LTIM", "TATACHEM", "TATAELXSI",
+  "ZOMATO", "PAYTM", "NYKAA", "POLICYBZR", "HAL", "BEL", "BHEL", "IRCTC", "RVNL",
+  "IREDA", "JIOFIN", "SUZLON", "YESBANK", "IDFCFIRSTB", "PNB", "BOB", "CANBK",
+  "UNIONBANK", "INDIANB", "IOB", "CENTRALBK", "MAHABANK", "UCOBANK", "PSB", "LIC",
+  "GICRE", "NIACL", "STAR", "ICICIPRULI", "ICICIGI", "MUTHOOTFIN", "CHOLAFIN",
+  "SHRIRAMFIN", "PFC", "RECLTD", "IRFC", "HUDCO", "AUBANK", "FEDERALBNK", "BANDHANBNK",
+  "CUB", "KARURVYSYA", "RBLBANK", "SOUTHBANK", "CSBBANK", "DCBBANK", "EQUITASBNK",
+  "UJJIVANSFB", "SURYODAY", "ESAF", "FINCARE", "JANA", "UTKARSH", "CAPITAL",
+  "FIVESTAR", "AVANTI", "VENKEYS", "GODREJAGRO", "KAVERI", "PIIND",
+  "COROMANDEL", "CHAMBAL", "GNFC", "GSFC", "FACT", "RCF", "NFL", "MFL",
+  "SPIC", "ZUARI", "MCFL", "PARADEEP", "DEEPAKFERT", "GHCL", "DCW",
+  "SUDARSCHEM", "AARTIIND", "ATUL", "NAVINFLUOR", "SRF", "GUJFLUORO", "ALKYLAMINE",
+  "BALAMINES", "FINEORG", "CLEAN", "VINATIORG", "NEOGEN", "CAMLINFS", "BODALCHEM",
+  "BHAGIRADHA", "ASTEC", "INSECTICID", "BHARATRAS", "MEGH", "EXCELIND", "PUNJABCHEM",
+  "SHARDACROP", "DHANUKA", "RALLIS", "BAYERCROP", "BASF", "SYNGENTA", "MONSANTO",
+  "PIDILITIND", "BERGERPAINT", "KANSAINER", "AKZOINDIA", "INDIGOPNTS",
+  "SHALPAINTS", "SNOWMAN", "BLUESTARCO", "VOLTAS", "SYMPHONY", "AMBER", "DIXON"
+];
+
+const stockSymbolsList = indianStocks.map((code, idx) => ({
+  code,
+  name: code,
+  color: colors[idx % colors.length]
+}));
 
 const GrowwGridShowcase = () => {
   const [selectedFundIndex, setSelectedFundIndex] = useState(0);
@@ -53,6 +85,7 @@ const GrowwGridShowcase = () => {
   const [hoveredCellIndex, setHoveredCellIndex] = useState(null);
   const [activeRandomCell, setActiveRandomCell] = useState(null);
   const [randomStockIndex, setRandomStockIndex] = useState(0);
+  const [, setShownHistory] = useState({});
 
   // Total cells in the grid matrix (6 rows x 10 cols)
   const totalGridCells = 60;
@@ -60,14 +93,37 @@ const GrowwGridShowcase = () => {
   // Auto-pulse random cells periodically to mimic Groww's live interactive grid background
   useEffect(() => {
     const interval = setInterval(() => {
-      const randomCell = Math.floor(Math.random() * totalGridCells);
-      const randomStock = Math.floor(Math.random() * stockSymbolsList.length);
-      setActiveRandomCell(randomCell);
-      setRandomStockIndex(randomStock);
+      const now = Date.now();
+      
+      setShownHistory(prev => {
+        const next = { ...prev };
+        // Clean up history older than 5 minutes (300,000 ms)
+        Object.keys(next).forEach(k => {
+          if (now - next[k] > 5 * 60 * 1000) delete next[k];
+        });
 
-      setTimeout(() => {
-        setActiveRandomCell(null);
-      }, 1200);
+        // Find available stocks (not shown in last 5 min)
+        const availableStocks = stockSymbolsList
+          .map((_, i) => i)
+          .filter(i => !next[i]);
+          
+        // If somehow all ~160 stocks were shown in 5 mins (rare), fallback to random
+        const randomStockIdx = availableStocks.length > 0
+          ? availableStocks[Math.floor(Math.random() * availableStocks.length)]
+          : Math.floor(Math.random() * stockSymbolsList.length);
+          
+        const randomCell = Math.floor(Math.random() * totalGridCells);
+
+        setActiveRandomCell(randomCell);
+        setRandomStockIndex(randomStockIdx);
+        
+        setTimeout(() => {
+          setActiveRandomCell(null);
+        }, 1200);
+
+        return { ...next, [randomStockIdx]: now };
+      });
+
     }, 2200);
 
     return () => clearInterval(interval);
@@ -99,23 +155,20 @@ const GrowwGridShowcase = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-emerald-500/10 blur-[150px] pointer-events-none" />
 
       {/* Header Section */}
-      <div className="text-center max-w-3xl mx-auto mb-12 relative z-20">
-        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-extrabold uppercase tracking-widest">
-          <Sparkles className="h-4 w-4" /> Direct Mutual Funds & SIPs
-        </span>
+      <div className="text-center max-w-3xl mx-auto mb-16 relative z-20">
 
-        <h2 className="mt-4 text-4xl sm:text-5xl font-black text-white tracking-tight">
-          Build wealth, <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">SIP by SIP</span>
+        <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tighter drop-shadow-sm">
+          Build wealth, <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-lg">SIP by SIP</span>
         </h2>
 
-        <p className="mt-3 text-slate-300 text-base sm:text-lg">
+        <p className="mt-5 text-slate-300 text-lg sm:text-xl font-medium">
           Invest in Direct Mutual Funds with 0% distributor commission & zero hidden charges.
         </p>
 
-        <div className="mt-6">
+        <div className="mt-8">
           <NavLink
             to="/calculators"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm transition-all duration-300 shadow-lg shadow-emerald-500/25 hover:-translate-y-0.5"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-black text-sm transition-all duration-300 shadow-xl shadow-white/10 hover:shadow-2xl hover:scale-[1.02]"
           >
             <span>Invest Now</span>
             <ArrowRight className="h-4 w-4" />
@@ -148,9 +201,9 @@ const GrowwGridShowcase = () => {
               >
                 {/* Temporary Fading Stock Badge on Hover/Pulse */}
                 <div
-                  className={`absolute inset-1 rounded-xl p-2 border flex flex-col items-center justify-center transition-all duration-500 backdrop-blur-md shadow-xl ${
+                  className={`absolute inset-1 rounded-xl p-2 flex flex-col items-center justify-center transition-all duration-500 shadow-2xl backdrop-blur-2xl ${
                     isActive
-                      ? "opacity-100 scale-100 z-10 bg-slate-900/90 " + stock.color
+                      ? "opacity-100 scale-100 z-10 bg-[#111827]/90 ring-1 ring-white/10 " + stock.color
                       : "opacity-0 scale-75 pointer-events-none"
                   }`}
                 >
@@ -163,28 +216,28 @@ const GrowwGridShowcase = () => {
         </div>
 
         {/* Central Featured Fund Interactive Card (Floating over Grid) */}
-        <div className="relative z-20 w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900/95 p-6 sm:p-7 shadow-2xl backdrop-blur-2xl transition-all duration-500 hover:border-emerald-500/40">
+        <div className="relative z-20 w-full max-w-md rounded-[2rem] border border-white/5 bg-gradient-to-br from-[#111827]/95 to-[#0a0f16]/95 p-8 shadow-[0_0_80px_rgba(0,0,0,0.8)] ring-1 ring-white/10 backdrop-blur-3xl transition-all duration-500 hover:ring-emerald-500/30">
           
           {/* Card Top Pill & Logo */}
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-slate-950 font-black text-lg shadow-md">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-4">
+              <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 font-black text-xl shadow-[0_0_20px_rgba(52,211,153,0.4)]">
                 ₹
               </div>
               <div>
-                <h3 className="text-lg font-black text-white leading-snug">{currentFund.name}</h3>
-                <span className="text-xs font-bold text-slate-400">{currentFund.category}</span>
+                <h3 className="text-xl font-black text-white leading-tight tracking-tight">{currentFund.name}</h3>
+                <span className="text-xs font-bold text-slate-400 tracking-wide uppercase">{currentFund.category}</span>
               </div>
             </div>
 
             {/* Quick Fund Selector Pills */}
-            <div className="flex gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
+            <div className="flex gap-1.5 bg-black/40 p-1.5 rounded-full border border-white/5">
               {fundData.map((f, idx) => (
                 <button
                   key={f.id}
                   onClick={() => setSelectedFundIndex(idx)}
-                  className={`h-2.5 w-2.5 rounded-full transition-all ${
-                    selectedFundIndex === idx ? "bg-emerald-400 scale-125" : "bg-slate-700 hover:bg-slate-500"
+                  className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
+                    selectedFundIndex === idx ? "bg-emerald-400 scale-125 shadow-[0_0_8px_rgba(52,211,153,0.8)]" : "bg-slate-600 hover:bg-slate-400"
                   }`}
                   title={f.name}
                 />
@@ -193,18 +246,18 @@ const GrowwGridShowcase = () => {
           </div>
 
           {/* Return Stats */}
-          <div className="mt-4 flex items-baseline justify-between border-t border-slate-800/80 pt-4">
+          <div className="mt-4 flex items-end justify-between border-t border-white/10 pt-5">
             <div>
-              <div className="text-3xl font-black text-emerald-400 tracking-tight">
+              <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">{currentFund.period} Return</div>
+              <div className="text-4xl font-black text-emerald-400 tracking-tighter drop-shadow-sm">
                 {currentFund.returns}
               </div>
-              <div className="text-xs font-semibold text-slate-400 mt-0.5">{currentFund.period}</div>
             </div>
 
             <div className="text-right">
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-extrabold">
-                <TrendingUp className="h-3.5 w-3.5" />
-                {currentFund.todayChange} 1D
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-black shadow-inner">
+                <TrendingUp className="h-4 w-4" />
+                {currentFund.todayChange} (1D)
               </span>
             </div>
           </div>

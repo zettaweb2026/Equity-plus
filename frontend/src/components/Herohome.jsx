@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight, Sparkles, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -213,28 +213,23 @@ const Herohome = () => {
           ref={headerRef}
           className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 space-y-5 z-20"
         >
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/40 bg-slate-950/80 text-emerald-400 text-xs font-extrabold uppercase tracking-widest backdrop-blur-md shadow-lg">
-            <Sparkles className="h-4 w-4" /> SEBI Registered Platform • 500,000+ Active Investors
-          </div>
-
           {/* Main Headline */}
-          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight text-white leading-none drop-shadow-2xl max-w-4xl">
-            Grow your <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">wealth</span>
+          <h1 className="text-6xl sm:text-7xl lg:text-[6.5rem] font-black tracking-tighter text-white leading-[1.05] max-w-5xl">
+            A premium <span className="bg-gradient-to-br from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-lg">financial platform</span><br/>for modern investors.
           </h1>
 
           {/* Subtitle */}
-          <p className="text-base sm:text-xl text-slate-200 font-semibold max-w-2xl mx-auto drop-shadow-md">
-            Trade Stocks, F&amp;O derivatives, Direct Mutual Funds with zero delivery brokerage.
+          <p className="text-lg sm:text-2xl text-slate-300 font-medium max-w-3xl mx-auto drop-shadow-md leading-relaxed">
+            Trade equity, derivatives, and direct mutual funds. Built with institutional-grade technology, flat-fee pricing, and sub-10ms execution.
           </p>
 
           {/* CTA button */}
-          <div className="pt-3">
+          <div className="pt-6">
             <NavLink
               to="/sign"
-              className="inline-flex items-center justify-center gap-2.5 px-9 py-4 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm transition-all duration-300 shadow-2xl shadow-emerald-500/40 hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-3 px-10 py-4 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-black text-sm transition-all duration-300 shadow-xl shadow-white/10 hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-1"
             >
-              <span>Get started</span>
+              <span>Open free demat account</span>
               <ArrowRight className="h-5 w-5" />
             </NavLink>
           </div>
@@ -245,43 +240,42 @@ const Herohome = () => {
           </div>
         </div>
 
-        {/* 3. Bottom Conversion Form (Reveals on scroll end) */}
         <div
           ref={bottomWidgetRef}
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 w-full max-w-xl px-4 z-30"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 w-full max-w-2xl px-4 z-30"
         >
-          <div className="rounded-2xl border border-slate-800/80 bg-slate-950/90 p-3.5 shadow-2xl backdrop-blur-xl">
-            <form onSubmit={handleQuickSubmit} className="flex flex-col sm:flex-row gap-2">
-              <div className="relative flex-1 flex items-center bg-slate-900/90 rounded-xl border border-slate-800 px-3 py-2">
-                <span className="text-xs font-bold text-slate-400 border-r border-slate-800 pr-2 mr-2">+91</span>
+          <div className="rounded-2xl border border-white/5 bg-black/60 p-5 shadow-2xl backdrop-blur-2xl ring-1 ring-white/10">
+            <form onSubmit={handleQuickSubmit} className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1 flex items-center bg-white/5 rounded-xl border border-white/10 px-4 py-3 focus-within:border-emerald-500/50 transition-colors">
+                <span className="text-sm font-semibold text-slate-400 border-r border-white/10 pr-3 mr-3">+91</span>
                 <input
                   type="tel"
                   required
                   maxLength={10}
                   value={mobileNumber}
                   onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ""))}
-                  placeholder="Enter mobile number"
-                  className="w-full bg-transparent text-xs font-semibold text-white placeholder-slate-500 focus:outline-none"
+                  placeholder="Enter your mobile number"
+                  className="w-full bg-transparent text-sm font-medium text-white placeholder-slate-500 focus:outline-none tracking-wide"
                 />
               </div>
               <button
                 type="submit"
-                className="flex items-center justify-center gap-2 px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs transition-all duration-300 shadow-lg shadow-emerald-500/25 shrink-0"
+                className="flex items-center justify-center gap-2 px-8 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm transition-all duration-300 shadow-lg shadow-emerald-500/20 shrink-0 hover:scale-[1.02]"
               >
-                <span>Open Free Account</span>
+                <span>Continue</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </form>
 
-            <div className="mt-2 flex items-center justify-between px-2 text-[10px] font-bold text-slate-400">
-              <span className="flex items-center gap-1">
-                <CheckCircle2 className="h-3 w-3 text-emerald-400" /> ₹0 Delivery Brokerage
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-semibold text-slate-400">
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> ₹0 Account Opening
               </span>
-              <span className="flex items-center gap-1">
-                <CheckCircle2 className="h-3 w-3 text-emerald-400" /> ₹0 AMC 1st Year
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> ₹0 Delivery Brokerage
               </span>
-              <span className="flex items-center gap-1">
-                <CheckCircle2 className="h-3 w-3 text-emerald-400" /> 100% Digital KYC
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> 100% Digital KYC
               </span>
             </div>
           </div>

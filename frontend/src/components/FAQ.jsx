@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Minus, HelpCircle } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 
 const FAQ = () => {
   const [open, setOpen] = useState(0);
@@ -42,9 +42,6 @@ const FAQ = () => {
         
         {/* Header */}
         <div className="text-center">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-xs font-bold uppercase tracking-widest">
-            <HelpCircle className="h-3.5 w-3.5" /> Got Questions?
-          </span>
           <h2 className="mt-3 text-3xl sm:text-4xl font-black text-white tracking-tight">
             Frequently Asked Questions
           </h2>
