@@ -11,6 +11,21 @@
   }
 }
 
+@keyframes dash {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
 @keyframes bounceSlow {
   0%, 100% {
     transform: translateY(0);

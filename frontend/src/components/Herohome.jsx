@@ -15,17 +15,19 @@ const phrases = [
   "Powered by Equity Plus Pvt. Ltd."
 ];
 
-const TypewriterHeadline = () => {
+const TypewriterHeadline = ({ startTyping = false, headlineRef }) => {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
+    if (!startTyping) return;
+
     const targetPhrase = phrases[phraseIndex];
     let timer;
 
     if (!isDeleting && displayedText === targetPhrase) {
-      // Pause at full phrase for 2.5 seconds (cycles every 2-3s)
+      // Pause at full phrase for 2.5 seconds
       timer = setTimeout(() => {
         setIsDeleting(true);
       }, 2500);
@@ -46,30 +48,37 @@ const TypewriterHeadline = () => {
     }
 
     return () => clearTimeout(timer);
-  }, [displayedText, isDeleting, phraseIndex]);
+  }, [displayedText, isDeleting, phraseIndex, startTyping]);
 
   return (
-    <h1 className="text-5xl sm:text-7xl lg:text-[6.2rem] font-black tracking-tighter text-white leading-[1.08] max-w-5xl">
+    <h1
+      ref={headlineRef}
+      className="text-5xl sm:text-7xl lg:text-[6.2rem] font-black tracking-tighter text-white leading-[1.08] max-w-5xl"
+    >
       Invest Smarter.<br />
       <span
         className="bg-gradient-to-br from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-lg inline-block min-h-[1.2em] font-mono tracking-tight"
         style={{ fontFamily: "'JetBrains Mono', 'Fira Code', ui-monospace, monospace" }}
       >
-        {displayedText}
+        {displayedText || (startTyping ? "" : "Trade Better.")}
         <span className="animate-pulse text-emerald-400 font-normal ml-1">|</span>
       </span>
     </h1>
   );
 };
 
-const Herohome = () => {
+const Herohome = ({ onLoadProgress, onImagesLoaded, heroEntranceActive = true }) => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [imagesLoaded, setImagesLoaded] = useState(false);
-  const [loadProgress, setLoadProgress] = useState(0);
+  const [startTypewriter, setStartTypewriter] = useState(false);
 
   const containerRef = useRef(null);
   const pinRef = useRef(null);
   const headerRef = useRef(null);
+  const headlineRef = useRef(null);
+  const subtitleRef = useRef(null);
+  const ctaBtnRef = useRef(null);
+  const scrollIndicatorRef = useRef(null);
   const canvasWrapperRef = useRef(null);
   const canvasRef = useRef(null);
   const bottomWidgetRef = useRef(null);
@@ -89,9 +98,12 @@ const Herohome = () => {
 
       const onDone = () => {
         loaded++;
-        setLoadProgress(Math.floor((loaded / TOTAL_FRAMES) * 100));
+        const pct = Math.floor((loaded / TOTAL_FRAMES) * 100);
+        if (onLoadProgress) onLoadProgress(pct);
+
         if (loaded >= Math.min(30, TOTAL_FRAMES)) {
           setImagesLoaded(true);
+          if (onImagesLoaded) onImagesLoaded();
         }
       };
 
@@ -101,7 +113,7 @@ const Herohome = () => {
     }
 
     imagesRef.current = images;
-  }, []);
+  }, [onLoadProgress, onImagesLoaded]);
 
   // 2. Render frame on canvas with top-anchored aspect cover
   const renderFrame = (index) => {
@@ -154,16 +166,67 @@ const Herohome = () => {
     }
   }, [imagesLoaded]);
 
-  // 3. GSAP ScrollTrigger Pinned Timeline
+  // 3. Hero Entrance Animation Sequence
+  useEffect(() => {
+    if (!heroEntranceActive || !imagesLoaded) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        onComplete: () => {
+          setStartTypewriter(true);
+        },
+      });
+
+      // Step 1: 3D Scene fade-in + slight scale animation (600ms)
+      tl.fromTo(
+        canvasWrapperRef.current,
+        { opacity: 0, scale: 1.06 },
+        { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" }
+      )
+
+      // Step 2: Headline line-by-line fade-up (500ms)
+      .fromTo(
+        headlineRef.current,
+        { opacity: 0, y: 35 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+        "-=0.3"
+      )
+
+      // Step 3: Subtitle description fade-up
+      .fromTo(
+        subtitleRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        "-=0.2"
+      )
+
+      // Step 4: Primary button slides upward with small glow (300ms)
+      .fromTo(
+        ctaBtnRef.current,
+        { opacity: 0, y: 25, scale: 0.95 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(1.5)" },
+        "-=0.1"
+      )
+
+      // Step 5: Scroll indicator appears
+      .fromTo(
+        scrollIndicatorRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3 },
+        "+=0.1"
+      );
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, [heroEntranceActive, imagesLoaded]);
+
+  // 4. GSAP ScrollTrigger Pinned Timeline
   useEffect(() => {
     if (!imagesLoaded) return;
 
     const timer = setTimeout(() => {
       renderFrame(0);
 
-      // Initial state: Canvas is 100% visible in background from load, Header centered over canvas
-      gsap.set(canvasWrapperRef.current, { opacity: 1 });
-      gsap.set(headerRef.current, { opacity: 1, y: 0, scale: 1 });
       gsap.set(bottomWidgetRef.current, { opacity: 0, y: 35, pointerEvents: "none" });
 
       const trigger = ScrollTrigger.create({
@@ -237,18 +300,11 @@ const Herohome = () => {
         ref={pinRef}
         className="relative h-screen w-full flex flex-col justify-between items-center overflow-hidden"
       >
-        {/* 1. Full-Screen 3D Video Canvas (Visible right behind headline on load) */}
+        {/* 1. Full-Screen 3D Video Canvas */}
         <div
           ref={canvasWrapperRef}
           className="absolute inset-0 w-full h-full z-10"
         >
-          {!imagesLoaded && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950 z-40">
-              <div className="h-10 w-10 animate-spin rounded-full border-4 border-emerald-500 border-t-transparent mb-3" />
-              <p className="text-xs font-bold text-slate-400">Loading 3D Experience... {loadProgress}%</p>
-            </div>
-          )}
-
           <canvas
             ref={canvasRef}
             className="w-full h-full object-cover z-10"
@@ -268,15 +324,18 @@ const Herohome = () => {
           className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 space-y-6 z-20"
         >
           {/* Main Headline */}
-          <TypewriterHeadline />
+          <TypewriterHeadline startTyping={startTypewriter} headlineRef={headlineRef} />
 
           {/* Subtitle */}
-          <p className="text-lg sm:text-2xl text-slate-300 font-medium max-w-3xl mx-auto drop-shadow-md leading-relaxed">
+          <p
+            ref={subtitleRef}
+            className="text-lg sm:text-2xl text-slate-300 font-medium max-w-3xl mx-auto drop-shadow-md leading-relaxed"
+          >
             Trade equity, derivatives, and direct mutual funds. Built with institutional-grade technology
           </p>
 
           {/* CTA button */}
-          <div className="pt-6">
+          <div ref={ctaBtnRef} className="pt-6">
             <NavLink
               to="/sign"
               className="inline-flex items-center justify-center gap-3 px-10 py-4 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-black text-sm transition-all duration-300 shadow-xl shadow-white/10 hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-1"
@@ -286,7 +345,10 @@ const Herohome = () => {
             </NavLink>
           </div>
 
-          <div className="pt-4 animate-bounce text-xs font-bold text-slate-400 flex items-center justify-center gap-1.5">
+          <div
+            ref={scrollIndicatorRef}
+            className="pt-4 animate-bounce text-xs font-bold text-slate-400 flex items-center justify-center gap-1.5"
+          >
             <span>Scroll down to explore 3D platform</span>
             <span className="text-emerald-400">↓</span>
           </div>
@@ -332,7 +394,6 @@ const Herohome = () => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );
