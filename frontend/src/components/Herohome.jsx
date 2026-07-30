@@ -3,10 +3,63 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import Ticker from "./Ticker";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TOTAL_FRAMES = 193;
+const TOTAL_FRAMES = 240;
+
+const phrases = [
+  "Trade Better.",
+  "Grow Faster.",
+  "Plan Smarter.",
+  "Powered by Equity Plus Pvt. Ltd."
+];
+
+const TypewriterHeadline = () => {
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const targetPhrase = phrases[phraseIndex];
+    let timer;
+
+    if (!isDeleting && displayedText === targetPhrase) {
+      // Pause at full phrase for 2.5 seconds (cycles every 2-3s)
+      timer = setTimeout(() => {
+        setIsDeleting(true);
+      }, 2500);
+    } else if (isDeleting && displayedText === "") {
+      setIsDeleting(false);
+      setPhraseIndex((prev) => (prev + 1) % phrases.length);
+    } else {
+      const speed = isDeleting ? 35 : 65;
+      timer = setTimeout(() => {
+        setDisplayedText((prev) =>
+          isDeleting
+            ? targetPhrase.substring(0, prev.length - 1)
+            : targetPhrase.substring(0, prev.length + 1)
+        );
+      }, speed);
+    }
+
+    return () => clearTimeout(timer);
+  }, [displayedText, isDeleting, phraseIndex]);
+
+  return (
+    <h1 className="text-5xl sm:text-7xl lg:text-[6.2rem] font-black tracking-tighter text-white leading-[1.08] max-w-5xl">
+      Invest Smarter.<br />
+      <span
+        className="bg-gradient-to-br from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-lg inline-block min-h-[1.2em] font-mono tracking-tight"
+        style={{ fontFamily: "'JetBrains Mono', 'Fira Code', ui-monospace, monospace" }}
+      >
+        {displayedText}
+        <span className="animate-pulse text-emerald-400 font-normal ml-1">|</span>
+      </span>
+    </h1>
+  );
+};
 
 const Herohome = () => {
   const [mobileNumber, setMobileNumber] = useState("");
@@ -211,16 +264,14 @@ const Herohome = () => {
         {/* 2. Foreground Headline Content (Overlaid on top of 3D video backdrop) */}
         <div
           ref={headerRef}
-          className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 space-y-5 z-20"
+          className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 space-y-6 z-20"
         >
           {/* Main Headline */}
-          <h1 className="text-6xl sm:text-7xl lg:text-[6.5rem] font-black tracking-tighter text-white leading-[1.05] max-w-5xl">
-            A premium <span className="bg-gradient-to-br from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-lg">financial platform</span><br/>for modern investors.
-          </h1>
+          <TypewriterHeadline />
 
           {/* Subtitle */}
           <p className="text-lg sm:text-2xl text-slate-300 font-medium max-w-3xl mx-auto drop-shadow-md leading-relaxed">
-            Trade equity, derivatives, and direct mutual funds. Built with institutional-grade technology, flat-fee pricing, and sub-10ms execution.
+            Trade equity, derivatives, and direct mutual funds. Built with institutional-grade technology
           </p>
 
           {/* CTA button */}

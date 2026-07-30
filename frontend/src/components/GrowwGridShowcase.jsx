@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ArrowRight, TrendingUp } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import Ticker from "./Ticker";
 
 const fundData = [
   {
@@ -155,7 +156,12 @@ const GrowwGridShowcase = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-emerald-500/10 blur-[150px] pointer-events-none" />
 
       {/* Header Section */}
-      <div className="text-center max-w-3xl mx-auto mb-16 relative z-20">
+      <div className="text-center max-w-5xl mx-auto mb-16 relative z-20">
+
+        {/* Centered Market Ticker Bar placed directly above "Build wealth, SIP by SIP" */}
+        <div className="w-full flex justify-center mb-6">
+          <Ticker variant="floating" />
+        </div>
 
         <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tighter drop-shadow-sm">
           Build wealth, <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-lg">SIP by SIP</span>

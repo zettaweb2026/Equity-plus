@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { RefreshCw } from "lucide-react";
 import { apiUrl } from "../config/api";
 
-const Ticker = ({ className = "" }) => {
+const Ticker = ({ className = "", variant = "default" }) => {
   const [stocks, setStocks] = useState([]);
   const [marketStatus, setMarketStatus] = useState("Market Closed");
   const [loading, setLoading] = useState(true);
@@ -95,6 +95,7 @@ const Ticker = ({ className = "" }) => {
   };
 
   if (loading) {
+    if (variant === "floating") return null;
     return (
       <div className={`flex h-16 w-full items-center justify-center border-b border-slate-800 bg-slate-900 px-4 text-sm font-bold tracking-wider text-slate-400 select-none shadow-md ${className}`}>
         <RefreshCw className="mr-2 h-4 w-4 animate-spin text-teal-400" />
@@ -104,9 +105,42 @@ const Ticker = ({ className = "" }) => {
   }
 
   if (error && stocks.length === 0) {
+    if (variant === "floating") return null;
     return (
       <div className={`flex h-16 w-full items-center justify-center border-b border-slate-800 bg-slate-900 px-4 text-sm font-bold tracking-wider text-rose-500 select-none shadow-md ${className}`}>
         ⚠️ TICKER OFFLINE: {error}
+      </div>
+    );
+  }
+
+  if (variant === "floating") {
+    return (
+      <div className={`ticker-floating-pill inline-flex items-center gap-5 px-8 py-3 rounded-full bg-[#090B12]/90 backdrop-blur-xl border border-emerald-500/30 shadow-2xl shadow-emerald-500/10 text-slate-100 select-none overflow-hidden w-full max-w-5xl pointer-events-auto transition-all ${className}`}>
+        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase tracking-widest shrink-0">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
+          </span>
+          <span>LIVE MARKET</span>
+        </div>
+
+        <div className="ticker-track relative flex flex-1 overflow-hidden">
+          <div className="animate-marquee flex items-center">
+            {[...stocks, ...stocks].map((stock, idx) => {
+              const isPositive = stock.change >= 0;
+              const formattedPrice = formatPrice(stock.price, stock.currency, stock.symbol);
+              return (
+                <div key={`float-${stock.symbol}-${idx}`} className="mx-6 flex items-center gap-2.5 whitespace-nowrap text-xs font-bold">
+                  <span className="text-slate-400 font-extrabold">{cleanSymbol(stock.symbol)}</span>
+                  <span className="text-slate-100 font-black">{formattedPrice}</span>
+                  <span className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-black ${isPositive ? "bg-emerald-500/15 text-emerald-400" : "bg-rose-500/15 text-rose-400"}`}>
+                    {isPositive ? "▲" : "▼"} {Math.abs(stock.change).toFixed(2)} ({isPositive ? "+" : ""}{stock.changePercent}%)
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     );
   }
