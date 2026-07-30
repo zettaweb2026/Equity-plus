@@ -15,7 +15,6 @@ import {
   BookOpen,
   ArrowRight,
   Coins,
-  Percent,
   Landmark,
   Building,
   Wallet,

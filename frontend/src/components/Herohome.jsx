@@ -3,7 +3,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import Ticker from "./Ticker";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,8 +30,10 @@ const TypewriterHeadline = () => {
         setIsDeleting(true);
       }, 2500);
     } else if (isDeleting && displayedText === "") {
-      setIsDeleting(false);
-      setPhraseIndex((prev) => (prev + 1) % phrases.length);
+      timer = setTimeout(() => {
+        setIsDeleting(false);
+        setPhraseIndex((prev) => (prev + 1) % phrases.length);
+      }, 200);
     } else {
       const speed = isDeleting ? 35 : 65;
       timer = setTimeout(() => {
