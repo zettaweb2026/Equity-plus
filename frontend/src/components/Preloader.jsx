@@ -14,8 +14,10 @@ const Preloader = ({ loadProgress = 0, isReady = false, onComplete }) => {
   const [displayedPercent, setDisplayedPercent] = useState(0);
   const [messageIndex, setMessageIndex] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
-  const [isDone, setIsDone] = useState(false);
   const [textFade, setTextFade] = useState(true);
+
+  // Derived state: done when progress hits 100%
+  const isDone = displayedPercent >= 100;
 
   // Check if returning visitor (cached session)
   const isCachedSession = typeof window !== "undefined" && sessionStorage.getItem("equity_plus_visited");
@@ -69,11 +71,10 @@ const Preloader = ({ loadProgress = 0, isReady = false, onComplete }) => {
     return () => clearInterval(interval);
   }, [displayedPercent]);
 
-  // Step 1: When 100% is reached, mark done and wait 300ms before starting exit transition
+  // Step 1: When 100% is reached, wait 300ms before starting exit transition
   useEffect(() => {
     if (displayedPercent < 100) return;
 
-    setIsDone(true);
     if (typeof window !== "undefined") {
       sessionStorage.setItem("equity_plus_visited", "true");
     }
