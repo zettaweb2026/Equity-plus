@@ -4,7 +4,9 @@ import {
   Percent, 
   Coins, 
   ArrowDownCircle, 
-  ChevronsUp 
+  ChevronsUp,
+  Sparkles,
+  ArrowRight
 } from "lucide-react";
 
 const calculatorsList = [
@@ -57,17 +59,17 @@ const calculatorsList = [
 
 const Calculators = () => {
   return (
-    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-sm font-bold tracking-wider text-indigo-600 uppercase bg-indigo-50 px-3 py-1.5 rounded-full">
-            Financial Planning Tools
+    <div className="min-h-screen bg-slate-950 text-white py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto space-y-12">
+        <div className="text-center max-w-3xl mx-auto">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-xs font-extrabold uppercase tracking-widest">
+            <Sparkles className="h-4 w-4" /> Financial Planning Suite
           </span>
-          <h1 className="mt-4 text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-            Calculate your <span className="bg-gradient-to-r from-indigo-600 to-teal-500 bg-clip-text text-transparent">Financial Goals</span>
+          <h1 className="mt-4 text-4xl sm:text-5xl font-black text-white tracking-tight">
+            Institutional <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Financial Calculators</span>
           </h1>
-          <p className="mt-4 text-lg text-slate-600">
-            Make informed decisions using our precise, easy-to-use financial calculators built for Indian standards.
+          <p className="mt-4 text-base sm:text-lg text-slate-400">
+            Make informed wealth decisions using our precise, easy-to-use financial models built for Indian market standards.
           </p>
         </div>
 
@@ -77,26 +79,26 @@ const Calculators = () => {
             return (
               <div 
                 key={calc.id} 
-                className="group relative bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col justify-between border border-slate-100 hover:-translate-y-1"
+                className="group relative bg-slate-900/90 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col justify-between border border-slate-800 hover:border-emerald-500/40 hover:-translate-y-1 backdrop-blur-xl"
               >
                 {/* Visual Accent Bar */}
-                <div className={`h-2 bg-gradient-to-r ${calc.color}`} />
+                <div className={`h-1.5 bg-gradient-to-r ${calc.color}`} />
                 
                 <div className="p-8 flex-1">
                   <div className="flex items-center justify-between mb-6">
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-700">
+                    <span className="text-xs font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
                       {calc.badge}
                     </span>
-                    <div className={`p-3 rounded-xl bg-gradient-to-br ${calc.color} text-white shadow-lg ${calc.shadow} group-hover:scale-110 transition-transform duration-300`}>
+                    <div className={`p-3 rounded-2xl bg-gradient-to-br ${calc.color} text-white shadow-lg ${calc.shadow} group-hover:scale-110 transition-transform duration-300`}>
                       <IconComponent className="h-6 w-6" />
                     </div>
                   </div>
 
-                  <h3 className="text-2xl font-bold text-slate-800 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-emerald-400 transition-colors duration-300">
                     {calc.name}
                   </h3>
                   
-                  <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                  <p className="text-slate-400 text-sm leading-relaxed mb-6 font-medium">
                     {calc.description}
                   </p>
                 </div>
@@ -104,9 +106,10 @@ const Calculators = () => {
                 <div className="px-8 pb-8 pt-0">
                   <Link 
                     to={`/calculator/${calc.id}`}
-                    className="w-full flex items-center justify-center py-3 px-4 rounded-xl text-white font-medium bg-slate-900 hover:bg-indigo-600 transition-colors duration-300 cursor-pointer shadow-md group-hover:shadow-lg"
+                    className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-slate-950 font-extrabold text-sm bg-emerald-500 hover:bg-emerald-400 transition-colors duration-300 cursor-pointer shadow-lg shadow-emerald-500/20"
                   >
-                    Open Calculator
+                    <span>Open Calculator</span>
+                    <ArrowRight className="h-4 w-4" />
                   </Link>
                 </div>
               </div>
@@ -117,4 +120,5 @@ const Calculators = () => {
     </div>
   );
 };
+
 export default Calculators;

@@ -7,234 +7,148 @@ import {
   FaShieldAlt,
   FaArrowRight,
 } from "react-icons/fa";
+import { Sparkles, ShieldCheck, Zap } from "lucide-react";
 import { NavLink } from "react-router-dom";
+
 const Services = () => {
   return (
-    <div className="bg-gray-50">
-
+    <div className="bg-slate-950 text-white min-h-screen">
+      
       {/* Hero Section */}
-      <section className="bg-gradient-to-r bg-sky-50 py-20 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-
-          <h1 className="text-4xl md:text-6xl font-bold ">
-            Our Services
+      <section className="relative py-20 px-6 overflow-hidden border-b border-slate-900">
+        <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-extrabold uppercase tracking-widest">
+            <Sparkles className="h-4 w-4" /> Next-Gen Investment Suite
+          </span>
+          <h1 className="mt-4 text-4xl md:text-6xl font-black tracking-tight text-white">
+            Our Products & <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Institutional Services</span>
           </h1>
 
-          <p className="mt-6 text-lg md:text-xl max-w-3xl mx-auto leading-8">
-            Equity Plus offers powerful financial tools, educational resources,
-            and market insights to help you invest smarter and grow your wealth
-            with confidence.
+          <p className="mt-6 text-slate-300 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
+            Equity Plus provides institutional-grade market analytics, zero delivery brokerage, automated SIP models, and financial planning calculators built for Indian standards.
           </p>
-
         </div>
       </section>
 
-      {/* Services */}
-      <section className="py-20 px-6">
+      {/* Services Grid */}
+      <section className="py-20 px-6 max-w-7xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-black text-center mb-14 text-white">
+          Comprehensive Wealth Solutions
+        </h2>
 
-        <div className="max-w-7xl mx-auto">
-
-          <h2 className="text-4xl font-bold text-center mb-14">
-            What We Offer
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
-            {/* Card 1 */}
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:-translate-y-2 hover:shadow-2xl transition duration-300">
-              <FaChartLine
-                className="text-indigo-600 mb-5"
-                size={45}
-              />
-
-              <h3 className="text-2xl font-bold mb-3">
-                Market Insights
-              </h3>
-
-              <p className="text-gray-600 leading-7">
-                Stay updated with the latest stock market trends, news, and
-                performance to make informed investment decisions.
-              </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          {/* Card 1 */}
+          <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-8 shadow-xl backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-emerald-500/40">
+            <div className="p-4 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 w-fit mb-6">
+              <FaChartLine size={32} />
             </div>
+            <h3 className="text-2xl font-bold mb-3 text-white">Real-Time Market Pulse</h3>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              Stay updated with live NSE/BSE indices, top gainers, losers, and stock news feeds to capture market opportunities.
+            </p>
+          </div>
 
-            {/* Card 2 */}
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:-translate-y-2 hover:shadow-2xl transition duration-300">
-              <FaCalculator
-                className="text-indigo-600 mb-5"
-                size={45}
-              />
-
-              <h3 className="text-2xl font-bold mb-3">
-                Financial Calculators
-              </h3>
-
-              <p className="text-gray-600 leading-7">
-                Easily calculate SIP, EMI, Brokerage, CAGR, GST, and retirement
-                plans with our smart calculators.
-              </p>
+          {/* Card 2 */}
+          <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-8 shadow-xl backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-indigo-500/40">
+            <div className="p-4 rounded-2xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 w-fit mb-6">
+              <FaCalculator size={32} />
             </div>
+            <h3 className="text-2xl font-bold mb-3 text-white">Smart Calculators</h3>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              Accurately estimate SIP compounding, loan EMIs, step-up wealth growth, and systematic withdrawal returns in seconds.
+            </p>
+          </div>
 
-            {/* Card 3 */}
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:-translate-y-2 hover:shadow-2xl transition duration-300">
-              <FaBookOpen
-                className="text-indigo-600 mb-5"
-                size={45}
-              />
-
-              <h3 className="text-2xl font-bold mb-3">
-                Learn Investing
-              </h3>
-
-              <p className="text-gray-600 leading-7">
-                Learn stock market basics, investment strategies, and financial
-                planning through simple educational resources.
-              </p>
+          {/* Card 3 */}
+          <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-8 shadow-xl backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-500/40">
+            <div className="p-4 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 w-fit mb-6">
+              <FaBookOpen size={32} />
             </div>
+            <h3 className="text-2xl font-bold mb-3 text-white">Stock Market Learning</h3>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              Master fundamental evaluation, candlestick reading, derivatives, and portfolio risk management with beginner guides.
+            </p>
+          </div>
 
-            {/* Card 4 */}
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:-translate-y-2 hover:shadow-2xl transition duration-300">
-              <FaChartPie
-                className="text-indigo-600 mb-5"
-                size={45}
-              />
-
-              <h3 className="text-2xl font-bold mb-3">
-                Stock Analysis
-              </h3>
-
-              <p className="text-gray-600 leading-7">
-                Analyze company performance, charts, and financial indicators to
-                evaluate investment opportunities.
-              </p>
+          {/* Card 4 */}
+          <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-8 shadow-xl backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-amber-500/40">
+            <div className="p-4 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20 w-fit mb-6">
+              <FaChartPie size={32} />
             </div>
+            <h3 className="text-2xl font-bold mb-3 text-white">Stock Analytics Screener</h3>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              Screen listed companies by P/E ratio, market cap, dividend yield, and financial statements with interactive charts.
+            </p>
+          </div>
 
-            {/* Card 5 */}
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:-translate-y-2 hover:shadow-2xl transition duration-300">
-              <FaWallet
-                className="text-indigo-600 mb-5"
-                size={45}
-              />
-
-              <h3 className="text-2xl font-bold mb-3">
-                Portfolio Planning
-              </h3>
-
-              <p className="text-gray-600 leading-7">
-                Learn how to diversify your investments and build a balanced
-                portfolio for long-term financial growth.
-              </p>
+          {/* Card 5 */}
+          <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-8 shadow-xl backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-rose-500/40">
+            <div className="p-4 rounded-2xl bg-rose-500/10 text-rose-400 border border-rose-500/20 w-fit mb-6">
+              <FaWallet size={32} />
             </div>
+            <h3 className="text-2xl font-bold mb-3 text-white">Automated Portfolio Setup</h3>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              Diversify investments across equity delivery, direct mutual funds, Sovereign Gold Bonds, and fixed-yield instruments.
+            </p>
+          </div>
 
-            {/* Card 6 */}
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:-translate-y-2 hover:shadow-2xl transition duration-300">
-              <FaShieldAlt
-                className="text-indigo-600 mb-5"
-                size={45}
-              />
-
-              <h3 className="text-2xl font-bold mb-3">
-                Secure Platform
-              </h3>
-
-              <p className="text-gray-600 leading-7">
-                Experience a reliable and responsive platform built with
-                simplicity, speed, and security in mind.
-              </p>
+          {/* Card 6 */}
+          <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-8 shadow-xl backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-emerald-500/40">
+            <div className="p-4 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 w-fit mb-6">
+              <FaShieldAlt size={32} />
             </div>
-
+            <h3 className="text-2xl font-bold mb-3 text-white">SEBI Compliant Infrastructure</h3>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              Benefit from 256-bit bank-grade encryption, sub-10ms order execution speeds, and full regulatory transparency.
+            </p>
           </div>
 
         </div>
-
       </section>
 
-      {/* Why Choose Us */}
-
-     
-
       {/* How It Works */}
-
-      <section className="py-20 px-6">
-
+      <section className="py-20 px-6 border-t border-slate-900 bg-slate-950/80">
         <div className="max-w-7xl mx-auto">
-
-          <h2 className="text-4xl font-bold text-center mb-14">
-            How It Works
+          <h2 className="text-3xl md:text-4xl font-black text-center mb-14 text-white">
+            4 Steps to Start Building Wealth
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-
-            <div className="bg-white shadow-lg rounded-xl p-8 text-center">
-              <div className="text-5xl font-bold text-indigo-600 mb-4">1</div>
-              <h3 className="font-bold text-xl mb-3">
-                Explore
-              </h3>
-              <p className="text-gray-600">
-                Browse our financial tools and learning resources.
-              </p>
-            </div>
-
-            <div className="bg-white shadow-lg rounded-xl p-8 text-center">
-              <div className="text-5xl font-bold text-indigo-600 mb-4">2</div>
-              <h3 className="font-bold text-xl mb-3">
-                Learn
-              </h3>
-              <p className="text-gray-600">
-                Understand market concepts through simple guides.
-              </p>
-            </div>
-
-            <div className="bg-white shadow-lg rounded-xl p-8 text-center">
-              <div className="text-5xl font-bold text-indigo-600 mb-4">3</div>
-              <h3 className="font-bold text-xl mb-3">
-                Analyze
-              </h3>
-              <p className="text-gray-600">
-                Use calculators and insights before investing.
-              </p>
-            </div>
-
-            <div className="bg-white shadow-lg rounded-xl p-8 text-center">
-              <div className="text-5xl font-bold text-indigo-600 mb-4">4</div>
-              <h3 className="font-bold text-xl mb-3">
-                Grow
-              </h3>
-              <p className="text-gray-600">
-                Build confidence and achieve your financial goals.
-              </p>
-            </div>
-
+            {[
+              { step: "01", title: "Open Account", desc: "100% digital KYC in under 5 minutes with zero account opening fee." },
+              { step: "02", title: "Analyze Markets", desc: "Use real-time indices, stock screeners, and option chain analytics." },
+              { step: "03", title: "Simulate Goals", desc: "Calculate SIP returns and EMI schedules with live compounding sliders." },
+              { step: "04", title: "Execute & Grow", desc: "Invest with zero delivery brokerage and build your financial future." },
+            ].map((s, idx) => (
+              <div key={idx} className="rounded-2xl border border-slate-800 bg-slate-900 p-8 text-center">
+                <div className="text-4xl font-black text-emerald-400 mb-3">{s.step}</div>
+                <h3 className="font-extrabold text-xl mb-2 text-white">{s.title}</h3>
+                <p className="text-slate-400 text-sm">{s.desc}</p>
+              </div>
+            ))}
           </div>
-
         </div>
-
       </section>
 
       {/* CTA */}
-
-      <section className="bg-gradient-to-r from-white to-sky-200 py-20 px-6">
-
-        <div className="max-w-4xl mx-auto text-center">
-
-          <h2 className="text-4xl md:text-5xl font-bold ">
+      <section className="py-20 px-6 bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950/50 border-t border-slate-900">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <h2 className="text-3xl md:text-5xl font-black text-white">
             Start Your Investment Journey Today
           </h2>
-
-          <p className="mt-6 text-lg leading-8">
-            Explore powerful financial tools, gain market knowledge, and make
-            smarter investment decisions with Equity Plus.
+          <p className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto">
+            Join over 500,000 Indian investors using Equity Plus for zero-fee equity delivery, fast trading, and smart calculators.
           </p>
-
           <NavLink
-  to="/calculators"
-  className="mt-10 mx-auto flex w-fit items-center justify-center gap-3 rounded-lg px-8 py-4 text-center text-xl font-bold text-indigo-800 transition duration-300 hover:bg-gray-100"
->
-  Explore Tools
-  <FaArrowRight />
-</NavLink>
-
+            to="/calculators"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-base transition duration-300 shadow-xl shadow-emerald-500/25"
+          >
+            <span>Explore All Calculators</span>
+            <FaArrowRight />
+          </NavLink>
         </div>
-
       </section>
 
     </div>

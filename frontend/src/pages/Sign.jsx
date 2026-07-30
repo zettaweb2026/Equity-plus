@@ -1,71 +1,126 @@
-const Sign = () => {
-  return (
-    <section className="min-h-screen bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mx-auto flex max-w-5xl flex-col overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_20px_60px_-20px_rgba(15,23,42,0.22)] lg:flex-row">
-        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 p-8 text-white lg:w-1/2 lg:p-10">
-          <p className="text-sm uppercase tracking-[0.3em] text-slate-300">Equity Plus</p>
-          <h2 className="mt-4 text-3xl font-semibold">Welcome back</h2>
-          <p className="mt-3 text-sm leading-6 text-slate-300">
-            Sign in to continue managing your financial plans with ease.
-          </p>
+import { useState } from "react";
+import { Sparkles, ShieldCheck, ArrowRight, CheckCircle2 } from "lucide-react";
 
-          <div className="mt-8 rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-sm">
-            <p className="text-sm font-medium">Why join?</p>
-            <ul className="mt-2 space-y-2 text-sm text-slate-200">
-              <li>• Personalized insights</li>
-              <li>• Faster access to calculators</li>
-              <li>• Smart planning tools</li>
-            </ul>
+const Sign = () => {
+  const [isLogin, setIsLogin] = useState(true);
+
+  return (
+    <section className="min-h-screen bg-slate-950 text-white px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-5xl flex-col overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/90 shadow-2xl backdrop-blur-xl lg:flex-row">
+        
+        {/* Left Column */}
+        <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950/60 p-8 text-white lg:w-1/2 lg:p-12 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-800">
+          <div>
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-extrabold uppercase tracking-widest mb-6">
+              <Sparkles className="h-4 w-4" /> Equity Plus Portal
+            </span>
+            
+            <h2 className="text-3xl font-black text-white leading-tight">
+              {isLogin ? "Welcome Back to Equity Plus" : "Open Your Free Demat Account"}
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-slate-300 font-medium">
+              {isLogin
+                ? "Log in to track your stocks, manage SIP calculators, and access live market analytics."
+                : "Join 500,000+ Indian investors trading with zero delivery brokerage and 100% digital KYC."}
+            </p>
+
+            <div className="mt-8 space-y-3">
+              {[
+                "₹0 Brokerage on Equity Delivery",
+                "Sub-10ms Order Execution Speed",
+                "256-bit SEBI Compliant Security",
+                "Instant Digital KYC Setup",
+              ].map((feat, idx) => (
+                <div key={idx} className="flex items-center gap-2.5 text-xs font-bold text-slate-200">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+                  <span>{feat}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-8 pt-4 border-t border-slate-800 text-xs text-slate-400 font-semibold">
+            Trusted by traders across 200+ Indian cities.
           </div>
         </div>
 
-        <div className="flex-1 p-6 sm:p-8 lg:p-10">
-          <div className="mx-auto max-w-md">
-            <div className="mb-8 text-center lg:text-left">
-              <p className="text-sm font-medium text-slate-500">Secure access</p>
-              <h1 className="mt-2 text-3xl font-semibold text-slate-900">Log in to your account</h1>
+        {/* Right Form Column */}
+        <div className="flex-1 p-8 sm:p-10 flex flex-col justify-center">
+          <div className="mx-auto w-full max-w-md">
+            
+            <div className="mb-8 flex justify-center border-b border-slate-800 pb-4">
+              <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-800 w-full">
+                <button
+                  onClick={() => setIsLogin(true)}
+                  className={`flex-1 py-2 rounded-lg text-xs font-extrabold transition ${
+                    isLogin ? "bg-emerald-500 text-slate-950 shadow" : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  Log In
+                </button>
+                <button
+                  onClick={() => setIsLogin(false)}
+                  className={`flex-1 py-2 rounded-lg text-xs font-extrabold transition ${
+                    !isLogin ? "bg-emerald-500 text-slate-950 shadow" : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  Register Account
+                </button>
+              </div>
             </div>
 
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+              {!isLogin && (
+                <div>
+                  <label className="mb-2 block text-xs font-bold text-slate-300">Full Name</label>
+                  <input
+                    type="text"
+                    placeholder="Rahul Sharma"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-emerald-500"
+                  />
+                </div>
+              )}
+
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">Email address</label>
+                <label className="mb-2 block text-xs font-bold text-slate-300">Mobile / Email Address</label>
                 <input
-                  type="email"
-                  placeholder="you@example.com"
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-400 focus:bg-white"
+                  type="text"
+                  placeholder="9876543210 or user@example.com"
+                  className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-emerald-500"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">Password</label>
+                <label className="mb-2 block text-xs font-bold text-slate-300">Password</label>
                 <input
                   type="password"
-                  placeholder="Enter your password"
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-400 focus:bg-white"
+                  placeholder="••••••••••••"
+                  className="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-emerald-500"
                 />
               </div>
 
-              <div className="flex flex-col gap-2 text-sm sm:flex-row sm:items-center sm:justify-between">
-                <label className="flex items-center gap-2 text-slate-600">
-                  <input type="checkbox" className="h-4 w-4 rounded border-slate-300 text-slate-800 focus:ring-slate-400" />
-                  Remember me
-                </label>
-                <a href="#" className="font-medium text-slate-700 hover:text-slate-900">
-                  Forgot password?
-                </a>
-              </div>
+              {isLogin && (
+                <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" className="h-4 w-4 rounded bg-slate-950 border-slate-800 text-emerald-500" />
+                    Remember me
+                  </label>
+                  <a href="#" className="hover:text-emerald-400">Forgot password?</a>
+                </div>
+              )}
 
               <button
                 type="submit"
-                className="w-full rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
+                className="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3.5 text-sm font-extrabold text-slate-950 transition hover:bg-emerald-400 shadow-lg shadow-emerald-500/20"
               >
-                Sign in
+                <span>{isLogin ? "Sign In" : "Open Account in 5 Mins"}</span>
+                <ArrowRight className="h-4 w-4" />
               </button>
             </form>
 
-          
           </div>
         </div>
+
       </div>
     </section>
   );

@@ -8,21 +8,24 @@ import Contact from "./pages/Contact"
 import Services from "./pages/Services"
 import Sign from "./pages/Sign"
 import Footer from "./shared/Footer"
+import ScrollToTop from "./components/ScrollToTop"
+
 function App() {
 
   return (
     <>
-    <Navbar />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-         <Route path="/about" element={<About />} />
-         <Route path="/calculators" element={<Calculators />} />
-         <Route path="/calculator/:type" element={<CalculatorPage />} />
-         <Route path="/contact" element={<Contact />} />
-         <Route path="/services" element={<Services />} />
-         <Route path="/sign" element={<Sign />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/calculators" element={<Calculators />} />
+        <Route path="/calculator/:type" element={<CalculatorPage />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/sign" element={<Sign />} />
       </Routes>
-    <Footer />
+      <Footer />
+      <ScrollToTop />
     </>
   )
 }

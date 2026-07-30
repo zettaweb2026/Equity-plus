@@ -1,5 +1,52 @@
 @import "tailwindcss";
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceSlow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-bounce-slow {
+  animation: bounceSlow 4s ease-in-out infinite;
+}
+
+/* Custom Scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #10b981;
+}
+
 .desktop-expanding-nav {
   transition:
     max-height 380ms ease,
@@ -19,7 +66,7 @@
   transform: scaleX(0);
   transform-origin: center;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.94);
+  background: #10b981;
   opacity: 0;
   transition:
     transform 300ms ease,
@@ -51,7 +98,7 @@
 
 .desktop-expanding-nav.is-mega-open .mega-shell {
   max-height: 360px;
-  border-top-color: rgba(255, 255, 255, 0.18);
+  border-top-color: rgba(255, 255, 255, 0.1);
   opacity: 1;
   transform: translateY(0);
 }
@@ -82,7 +129,7 @@
 }
 
 .mega-panel-header {
-  border-right: 1px solid rgba(255, 255, 255, 0.18);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
   padding-right: 28px;
 }
 
@@ -114,9 +161,9 @@
   display: flex;
   align-items: center;
   min-height: 52px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
   padding: 13px 16px;
   font-size: 0.98rem;
   font-weight: 800;
@@ -133,8 +180,8 @@
 
 .mega-link:hover,
 .mega-link.active {
-  border-color: rgba(255, 255, 255, 0.34);
-  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.1);
   color: #fff;
   transform: translateY(-1px);
 }
@@ -171,12 +218,11 @@
 
 /* ========================================================
    FINANCIAL TICKER — TV News Channel Style
-   Desktop : ~120s per full cycle   (comfortable for all)
+   Desktop : ~120s per full cycle
    Tablet  : ~85s  per full cycle
    Mobile  : ~65s  per full cycle
    ======================================================== */
 
-/* Desktop / Large screens — slowest, most readable */
 .animate-marquee {
   display: flex;
   width: max-content;
@@ -184,31 +230,48 @@
   will-change: transform;
 }
 
-/* Tablet */
 @media (max-width: 1023px) {
   .animate-marquee {
     animation-duration: 210s;
   }
 }
 
-/* Mobile */
 @media (max-width: 767px) {
   .animate-marquee {
     animation-duration: 160s;
   }
 }
 
-/* --------------------------------------------------------
-   PAUSE — Mouse hover (desktop)
-   -------------------------------------------------------- */
 .animate-marquee:hover,
 .ticker-track:hover .animate-marquee {
   animation-play-state: paused;
 }
 
-/* --------------------------------------------------------
-   PAUSE — Touch hold (mobile/tablet) via JS class toggle
-   -------------------------------------------------------- */
 .animate-marquee.ticker-paused {
   animation-play-state: paused;
 }
+
+/* ========================================================
+   LIGHT MODE THEME STYLES
+   ======================================================== */
+html.light-mode {
+  color-scheme: light;
+}
+
+html.light-mode body {
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+
+html.light-mode ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+html.light-mode ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+html.light-mode ::-webkit-scrollbar-thumb:hover {
+  background: #10b981;
+}
+

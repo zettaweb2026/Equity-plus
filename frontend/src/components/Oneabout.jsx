@@ -1,44 +1,55 @@
+import { ShieldCheck, Target, Award } from "lucide-react";
+
 const Oneabout = () => {
   return (
     <div className="w-full overflow-x-hidden">
       <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-[0_20px_60px_-24px_rgba(15,23,42,0.2)] sm:p-10">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-600">
-            Who We Are
-          </p>
-          <h2 className="mt-3 text-2xl font-semibold text-slate-900 sm:text-3xl">
-            Built for investors who value clarity and trust.
-          </h2>
-          <p className="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
-            Equity Plus is a modern stock market platform created to help people learn, analyze, and make confident financial choices. We believe informed investing should feel practical, approachable, and dependable.
-          </p>
+        
+        {/* Left card */}
+        <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-8 shadow-xl backdrop-blur-xl sm:p-10 flex flex-col justify-between">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-widest text-emerald-400">
+              Who We Are
+            </span>
+            <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">
+              Built for investors who value clarity, speed, and trust.
+            </h2>
+            <p className="mt-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+              Equity Plus is a modern stock market platform created to help people learn, analyze, and make confident financial choices. We believe informed investing should feel practical, approachable, and dependable.
+            </p>
+          </div>
+          <div className="mt-8 pt-4 border-t border-slate-800 flex items-center gap-2 text-xs font-bold text-emerald-400">
+            <ShieldCheck className="h-4 w-4" /> SEBI Registered Principles & Bank-Grade Security
+          </div>
         </div>
 
-        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-8 shadow-sm sm:p-10">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
+        {/* Right card */}
+        <div className="rounded-3xl border border-slate-800 bg-slate-950 p-8 shadow-xl sm:p-10 space-y-4">
+          <span className="text-xs font-bold uppercase tracking-widest text-indigo-400">
             Our Approach
-          </p>
-          <div className="mt-5 space-y-4">
-            <div className="rounded-2xl border border-slate-200 bg-white p-4">
-              <h3 className="font-semibold text-slate-900">Simple guidance</h3>
-              <p className="mt-1 text-sm leading-7 text-slate-600">
-                We turn complex market ideas into clear, useful insights.
+          </span>
+          <div className="space-y-3 pt-2">
+            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+              <h3 className="font-bold text-white text-base">Simple & Transparent</h3>
+              <p className="mt-1 text-xs text-slate-400 leading-relaxed">
+                We turn complex stock market analytics into clear, actionable insights.
               </p>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-4">
-              <h3 className="font-semibold text-slate-900">Reliable tools</h3>
-              <p className="mt-1 text-sm leading-7 text-slate-600">
-                Our calculators and resources are designed to support smarter decisions.
+            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+              <h3 className="font-bold text-white text-base">Institutional Calculators</h3>
+              <p className="mt-1 text-xs text-slate-400 leading-relaxed">
+                Our compounding models are designed for precise wealth planning.
               </p>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-4">
-              <h3 className="font-semibold text-slate-900">Confidence at every stage</h3>
-              <p className="mt-1 text-sm leading-7 text-slate-600">
-                Whether you are starting out or refining your strategy, we are here to support you.
+            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+              <h3 className="font-bold text-white text-base">Confidence at Every Stage</h3>
+              <p className="mt-1 text-xs text-slate-400 leading-relaxed">
+                Whether starting out or managing large capital, our platform supports your goals.
               </p>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );

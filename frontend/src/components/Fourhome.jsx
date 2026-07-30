@@ -1,49 +1,80 @@
-import { FaStar } from "react-icons/fa";
+import { Star, ShieldCheck, Quote } from "lucide-react";
+
+const testimonials = [
+  {
+    name: "Rahul Sharma",
+    role: "Active Equity Investor",
+    city: "Mumbai, MH",
+    quote: "Equity Plus simplified stock analysis and SIP calculation for me. The instant calculators helped me plan my monthly investments accurately with zero hassle.",
+    rating: 5,
+    verified: "Verified Investor",
+    avatarBg: "from-blue-500 to-indigo-600",
+    initials: "RS",
+  },
+  {
+    name: "Sneha Gupta",
+    role: "Mutual Fund & F&O Trader",
+    city: "Bengaluru, KA",
+    quote: "The interface is blazingly fast and modern! From real-time NSE market ticker feeds to zero delivery brokerage, it completely outperforms legacy platforms.",
+    rating: 5,
+    verified: "Verified Investor",
+    avatarBg: "from-emerald-500 to-teal-600",
+    initials: "SG",
+  },
+  {
+    name: "Aman Verma",
+    role: "Long-term Wealth Builder",
+    city: "Delhi, NCR",
+    quote: "I use Equity Plus daily to monitor indices and calculate future compounding returns. The transparent pricing and zero hidden fees give me total peace of mind.",
+    rating: 5,
+    verified: "Verified Investor",
+    avatarBg: "from-purple-500 to-pink-600",
+    initials: "AV",
+  },
+];
 
 const Fourhome = () => {
   return (
-    <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-      <div className="flex min-h-[220px] flex-col justify-between gap-4 rounded-xl bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-        <div className="flex items-center gap-2 text-yellow-400">
-          <FaStar size={20} />
-          <FaStar size={20} />
-          <FaStar size={20} />
-          <FaStar size={20} />
-          <FaStar size={20} />
-        </div>
-        <h1 className="text-lg sm:text-xl">
-          "Equity Plus simplified investing for me. The calculators helped me plan my SIP investments accurately."
-        </h1>
-        <h1 className="text-base font-bold sm:text-lg">— Rahul Sharma</h1>
-      </div>
+    <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3">
+      {testimonials.map((t, idx) => (
+        <div
+          key={idx}
+          className="group relative flex flex-col justify-between rounded-3xl border border-slate-800 bg-slate-900/90 p-8 shadow-xl backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-emerald-500/40"
+        >
+          <div>
+            {/* Rating Stars & Quote Icon */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-1 text-amber-400">
+                {[...Array(t.rating)].map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-amber-400" />
+                ))}
+              </div>
+              <Quote className="h-8 w-8 text-slate-800 group-hover:text-emerald-500/20 transition-colors" />
+            </div>
 
-      <div className="flex min-h-[220px] flex-col justify-between gap-4 rounded-xl bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-        <div className="flex items-center gap-2 text-yellow-400">
-          <FaStar size={20} />
-          <FaStar size={20} />
-          <FaStar size={20} />
-          <FaStar size={20} />
-          <FaStar size={20} />
-        </div>
-        <h1 className="text-lg sm:text-xl">
-          "The educational resources are beginner-friendly and easy to understand."
-        </h1>
-        <h1 className="text-base font-bold sm:text-lg">— Sneha Gupta</h1>
-      </div>
+            {/* Testimonial Quote */}
+            <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-medium mb-8">
+              "{t.quote}"
+            </p>
+          </div>
 
-      <div className="flex min-h-[220px] flex-col justify-between gap-4 rounded-xl bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-        <div className="flex items-center gap-2 text-yellow-400">
-          <FaStar size={20} />
-          <FaStar size={20} />
-          <FaStar size={20} />
-          <FaStar size={20} />
-          <FaStar size={20} />
+          {/* User Profile Footer */}
+          <div className="flex items-center gap-4 pt-4 border-t border-slate-800">
+            <div className={`h-12 w-12 rounded-2xl bg-gradient-to-br ${t.avatarBg} flex items-center justify-center text-white font-black text-base shadow-md`}>
+              {t.initials}
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-extrabold text-white text-base">{t.name}</span>
+                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                  <ShieldCheck className="h-3 w-3" /> {t.verified}
+                </span>
+              </div>
+              <div className="text-xs text-slate-400 font-semibold">{t.role} • {t.city}</div>
+            </div>
+          </div>
         </div>
-        <h1 className="text-lg sm:text-xl">
-          "I use Equity Plus every day to track the market and estimate investment returns."
-        </h1>
-        <h1 className="text-base font-bold sm:text-lg">— Aman Verma</h1>
-      </div>
+      ))}
     </div>
   );
 };

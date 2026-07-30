@@ -1,82 +1,115 @@
+import { PhoneCall, Mail, MapPin, Send, ShieldCheck } from "lucide-react";
+
 const Contact = () => {
   return (
-    <section className="min-h-screen bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-6xl rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_-20px_rgba(15,23,42,0.18)] sm:p-8 lg:p-10">
+    <section className="min-h-screen bg-slate-950 text-white px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl rounded-3xl border border-slate-800 bg-slate-900/90 p-6 sm:p-8 lg:p-10 shadow-2xl backdrop-blur-xl">
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="rounded-[1.5rem] bg-slate-900 p-7 text-white sm:p-8">
-            <p className="text-sm uppercase tracking-[0.25em] text-slate-300">Contact us</p>
-            <h2 className="mt-3 text-3xl font-semibold">Let’s talk about your goals</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-300">
-              Share a few details and we’ll get back to you with the right guidance.
-            </p>
+          
+          {/* Info Card */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-950 p-8 text-white flex flex-col justify-between">
+            <div className="space-y-4">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-extrabold uppercase tracking-widest">
+                <ShieldCheck className="h-4 w-4" /> 24/7 Priority Desk
+              </span>
+              <h2 className="text-3xl font-black tracking-tight text-white">Let’s talk about your wealth goals</h2>
+              <p className="text-sm leading-relaxed text-slate-400 font-medium">
+                Whether you have questions about account opening, brokerage rates, or calculator tools, our support team is here to assist.
+              </p>
 
-            <div className="mt-8 space-y-4 text-sm text-slate-200">
-              <div>
-                <p className="font-medium text-white">Email</p>
-                <p className="mt-1">support@equityplus.com</p>
+              <div className="mt-8 space-y-6 text-sm text-slate-300">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <Mail className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-white text-xs uppercase text-slate-400">Email Support</p>
+                    <p className="font-semibold text-white">support@equityplus.com</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="p-3 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                    <PhoneCall className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-white text-xs uppercase text-slate-400">Phone Support</p>
+                    <p className="font-semibold text-white">8335050444</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                    <MapPin className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-white text-xs uppercase text-slate-400">Registered Office</p>
+                    <p className="font-semibold text-white">Barasat, West Bengal, India</p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <p className="font-medium text-white">Phone</p>
-                <p className="mt-1">8335050444</p>
-              </div>
-              <div>
-                <p className="font-medium text-white">Office</p>
-                <p className="mt-1">Barasat , West Bengal</p>
-              </div>
+            </div>
+
+            <div className="mt-8 pt-4 border-t border-slate-900 text-xs text-slate-500">
+              SEBI Registered Support • Response time &lt; 2 Hours
             </div>
           </div>
 
-          <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-6 sm:p-8">
-            <h3 className="text-2xl font-semibold text-slate-900">Send a message</h3>
-            <p className="mt-2 text-sm text-slate-500">
-              A quick note is enough to start the conversation.
+          {/* Form */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/80 p-6 sm:p-8">
+            <h3 className="text-2xl font-black text-white">Send a Message</h3>
+            <p className="mt-1 text-sm text-slate-400">
+              Fill in your details below to request a callback from our team.
             </p>
 
             <form className="mt-6 space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">First name</label>
+                  <label className="mb-2 block text-xs font-bold text-slate-300">First Name</label>
                   <input
                     type="text"
-                   
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-400"
+                    placeholder="Rahul"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-emerald-500"
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">Last name</label>
+                  <label className="mb-2 block text-xs font-bold text-slate-300">Last Name</label>
                   <input
                     type="text"
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-400"
+                    placeholder="Sharma"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-emerald-500"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">Email address</label>
+                <label className="mb-2 block text-xs font-bold text-slate-300">Email Address</label>
                 <input
                   type="email"
-                 
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-400"
+                  placeholder="rahul@example.com"
+                  className="w-full rounded-xl border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-emerald-500"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">Message</label>
+                <label className="mb-2 block text-xs font-bold text-slate-300">Message</label>
                 <textarea
                   rows="4"
                   placeholder="Tell us what you need help with..."
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-400"
+                  className="w-full rounded-xl border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-emerald-500"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
+                className="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3.5 text-sm font-extrabold text-slate-950 transition hover:bg-emerald-400 shadow-lg shadow-emerald-500/20"
               >
-                Send message
+                <Send className="h-4 w-4" />
+                <span>Send Message</span>
               </button>
             </form>
           </div>
+
         </div>
       </div>
     </section>
