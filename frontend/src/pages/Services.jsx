@@ -7,7 +7,7 @@ import {
   FaShieldAlt,
   FaArrowRight,
 } from "react-icons/fa";
-import { Sparkles, ShieldCheck, Zap } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const Services = () => {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, ShieldCheck, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
 
 const Sign = () => {
   const [isLogin, setIsLogin] = useState(true);

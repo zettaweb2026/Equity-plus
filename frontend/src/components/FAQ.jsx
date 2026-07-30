@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Minus, HelpCircle, Sparkles } from "lucide-react";
+import { Plus, Minus, HelpCircle } from "lucide-react";
 
 const FAQ = () => {
   const [open, setOpen] = useState(0);

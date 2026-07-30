@@ -1,4 +1,4 @@
-import { Smartphone, QrCode, Star, Download, ShieldCheck } from "lucide-react";
+import { Smartphone, QrCode, Star, Download } from "lucide-react";
 import appMockup from "../assets/images/app_mockup_3d.png";
 import { NavLink } from "react-router-dom";
 

@@ -16,7 +16,6 @@ const Sechome = () => {
   const [marketIndices, setMarketIndices] = useState(null);
   const [activeTab, setActiveTab] = useState("gainers");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const fetchAllData = useCallback(async () => {
     try {
@@ -35,16 +34,15 @@ const Sechome = () => {
         const json = await marketRes.json();
         if (json.success) setMarketIndices(json.data);
       }
-      setError(null);
     } catch (err) {
       console.error("Error fetching market pulse:", err);
-      setError(err.message);
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchAllData();
     const interval = setInterval(fetchAllData, 30000);
     return () => clearInterval(interval);

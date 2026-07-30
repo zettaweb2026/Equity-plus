@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Search, Sparkles, TrendingUp, Calculator, ShieldCheck, Menu, X } from "lucide-react";
+import { Search, Sparkles, Calculator, Menu, X } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import logo from "../assets/images/new_logo.png";
 import Ticker from "../components/Ticker";

@@ -1,4 +1,4 @@
-import { TrendingUp, Percent, Coins, ArrowRight, Sparkles } from "lucide-react";
+import { TrendingUp, Percent, Coins, ArrowRight } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const Thirhome = () => {

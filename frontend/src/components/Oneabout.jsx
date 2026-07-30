@@ -1,4 +1,4 @@
-import { ShieldCheck, Target, Award } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 const Oneabout = () => {
   return (

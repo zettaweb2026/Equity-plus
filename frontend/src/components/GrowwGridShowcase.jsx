@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Sparkles, ArrowRight, TrendingUp, ShieldCheck, Zap } from "lucide-react";
+import { Sparkles, ArrowRight, TrendingUp } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const fundData = [
