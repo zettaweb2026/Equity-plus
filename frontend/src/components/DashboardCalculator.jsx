@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { 
   TrendingUp, 
   ChevronsUp, 
@@ -10,7 +10,6 @@ import {
   ArrowDownCircle, 
   Landmark, 
   Repeat, 
-  ShieldCheck,
   Calculator,
   Download
 } from 'lucide-react';
@@ -271,14 +270,6 @@ const DashboardCalculator = () => {
 
   const chartRef = useRef(null);
 
-  const getVal = (fieldId) => {
-    const key = `${activeType}_${fieldId}`;
-    const v = inputs[key];
-    if (v === undefined || v === '') return 0;
-    const num = parseFloat(v);
-    return isNaN(num) ? 0 : num;
-  };
-
   const handleInputChange = (fieldId, value) => {
     const cleanVal = String(value).replace(/[^0-9.]/g, '');
     setInputs(prev => ({
@@ -303,6 +294,14 @@ const DashboardCalculator = () => {
 
   // Math calculations & visualization datasets
   const calcResults = useMemo(() => {
+    const getVal = (fieldId) => {
+      const key = `${activeType}_${fieldId}`;
+      const v = inputs[key];
+      if (v === undefined || v === '') return 0;
+      const num = parseFloat(v);
+      return isNaN(num) ? 0 : num;
+    };
+
     if (activeType === 'sip') {
       const monthly = getVal('monthly');
       const rate = getVal('rate');
@@ -546,7 +545,6 @@ const DashboardCalculator = () => {
       const retirementAge = getVal('retirementAge');
       const monthlyExpenses = getVal('monthlyExpenses');
       const inflation = getVal('inflation');
-      const preReturn = getVal('preReturn');
       const postReturn = getVal('postReturn');
 
       const yearsToRetire = Math.max(1, retirementAge - currentAge);
@@ -568,10 +566,9 @@ const DashboardCalculator = () => {
           phase: 'Accumulation'
         });
       }
-      let remainingCorpus = requiredCorpus;
       for (let age = retirementAge + 2; age <= retirementAge + 20; age += 2) {
         const postYears = age - retirementAge;
-        remainingCorpus = Math.max(0, requiredCorpus * (1 - Math.pow(postYears / 20, 1.2)));
+        const remainingCorpus = Math.max(0, requiredCorpus * (1 - Math.pow(postYears / 20, 1.2)));
         chartData.push({
           name: `Age ${age}`,
           corpus: Math.round(remainingCorpus),
@@ -651,7 +648,6 @@ const DashboardCalculator = () => {
       const rate = getVal('rate');
       const tenure = getVal('tenure');
 
-      const totalMonths = tenure * 12;
       const r = rate / 12 / 100;
       
       const chartData = [];
@@ -688,6 +684,14 @@ const DashboardCalculator = () => {
   }, [activeType, inputs]);
 
   const IconComp = config.icon;
+
+  const getFieldValue = (fieldId) => {
+    const key = `${activeType}_${fieldId}`;
+    const v = inputs[key];
+    if (v === undefined || v === '') return 0;
+    const num = parseFloat(v);
+    return isNaN(num) ? 0 : num;
+  };
 
   return (
     <div className="min-h-screen bg-[#090d16] text-slate-100 selection:bg-sky-500 selection:text-slate-950 pb-20">
@@ -782,7 +786,7 @@ const DashboardCalculator = () => {
 
             <div className="space-y-6">
               {config.fields.map(field => {
-                const val = getVal(field.id);
+                const val = getFieldValue(field.id);
                 return (
                   <div key={field.id} className="space-y-2.5">
                     <div className="flex justify-between items-center text-sm">
@@ -998,7 +1002,7 @@ const DashboardCalculator = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {CATEGORIES.map(category => {
               const categoryCalcs = Object.entries(CALCULATOR_CONFIGS).filter(
-                ([_, c]) => c.category === category
+                ([, c]) => c.category === category
               );
               return (
                 <div key={category} className="space-y-2">
